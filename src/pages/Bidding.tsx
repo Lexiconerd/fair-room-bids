@@ -39,14 +39,12 @@ const Bidding = () => {
 
   // Calculate total whenever room bids change
   useEffect(() => {
-    const roomABid = parseFloat(formData.roomA) || 0;
-    const otherRoomsBids = rooms.slice(1).reduce((acc, room) => {
-      const value = parseFloat(formData[room.id as keyof typeof formData] as string) || 0;
-      return acc + value;
-    }, 0);
+    const allBids = rooms.map(room => parseFloat(formData[room.id as keyof typeof formData] as string) || 0);
+    const regularTotal = allBids.reduce((acc, bid) => acc + bid, 0);
     
-    const regularTotal = roomABid + otherRoomsBids;
-    const weighted = (roomABid * 2) + otherRoomsBids; // Room A counts double
+    // Find the lowest bid and double it (singles pay half of cheapest room)
+    const lowestBid = allBids.length > 0 ? Math.min(...allBids.filter(bid => bid > 0)) : 0;
+    const weighted = regularTotal + (lowestBid || 0); // Add lowest bid once more
     
     setTotal(regularTotal);
     setWeightedTotal(weighted);
@@ -84,7 +82,7 @@ const Bidding = () => {
     });
 
     if (weightedTotal !== 3275) {
-      newErrors.total = "Total weighted bids must equal exactly $3,275 (Room A counts double)";
+      newErrors.total = "Total weighted bids must equal exactly $3,275 (lowest bid counts double for singles)";
     }
 
     setErrors(newErrors);
@@ -237,7 +235,7 @@ const Bidding = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Room Bids</h1>
             <p className="text-xl text-muted-foreground">
-              Your weighted total must equal $3,275 (Room A counts double as it houses 4 people)
+              Your weighted total must equal $3,275 (lowest bid counts double for singles)
             </p>
           </div>
 
@@ -246,7 +244,7 @@ const Bidding = () => {
             <DollarSign className="h-4 w-4" />
             <AlertDescription className="text-foreground">
               <strong>Important:</strong> Your weighted total must equal exactly $3,275. 
-              Room A counts double (4 people vs 2). Bid higher on rooms you prefer more. 
+              The lowest bid counts double because singles will pay half of the cheapest room. Bid higher on rooms you prefer more. 
               The system will assign rooms fairly and you'll typically pay less than your maximum bid.
             </AlertDescription>
           </Alert>
@@ -300,7 +298,7 @@ const Bidding = () => {
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-foreground">Room Bids</h3>
                   <p className="text-sm text-muted-foreground">
-                    Note: Room A will count double in the total (houses 4 people vs 2)
+                    Note: The lowest bid will count double in the total (singles pay half of cheapest room)
                   </p>
                   
                   {rooms.map((room) => (
@@ -330,7 +328,7 @@ const Bidding = () => {
                     <span className={getTotalColor()}>${total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Weighted Total (Room A × 2):</span>
+                    <span className="font-medium">Weighted Total (Lowest × 2):</span>
                     <Badge variant={getTotalBadgeVariant()}>
                       ${weightedTotal.toFixed(2)}
                       {weightedTotal === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}

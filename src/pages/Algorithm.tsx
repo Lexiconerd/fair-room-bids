@@ -10,7 +10,7 @@ const Algorithm = () => {
     {
       icon: DollarSign,
       title: "Allocate Your Budget",
-      description: "Each couple gets $4,000 to distribute across the 5 rooms based on your preferences."
+      description: "Each couple gets $1,000 to distribute across the 5 rooms based on your preferences."
     },
     {
       icon: Users,
@@ -25,28 +25,40 @@ const Algorithm = () => {
     {
       icon: CheckCircle,
       title: "Fair Pricing",
-      description: "Pay the second-highest bid for your room (usually less than what you bid)."
+      description: "Pay the second-highest bid for your room (usually less than what you bid). Singles pay half of the cheapest room."
     }
   ];
 
   const exampleBids = [
     {
       couple: "Alex & Jamie",
-      bids: { A: 1800, B: 1200, C: 600, D: 400, E: 0 },
+      bids: { A: 450, B: 300, C: 150, D: 100, E: 0 },
       assigned: "A",
-      payment: 1500
+      payment: 400
     },
     {
       couple: "Morgan & Casey",
-      bids: { A: 1500, B: 800, C: 1000, D: 500, E: 200 },
+      bids: { A: 400, B: 200, C: 250, D: 125, E: 25 },
       assigned: "C",
-      payment: 600
+      payment: 150
     },
     {
       couple: "Taylor & Jordan",
-      bids: { A: 800, B: 1600, C: 600, D: 1000, E: 0 },
+      bids: { A: 200, B: 400, C: 150, D: 250, E: 0 },
       assigned: "B",
-      payment: 800
+      payment: 200
+    },
+    {
+      couple: "Sam & Riley",
+      bids: { A: 300, B: 150, C: 200, D: 300, E: 50 },
+      assigned: "D",
+      payment: 250
+    },
+    {
+      couple: "Chris & Avery",
+      bids: { A: 250, B: 250, C: 200, D: 200, E: 100 },
+      assigned: "E",
+      payment: 50
     }
   ];
 
@@ -105,7 +117,7 @@ const Algorithm = () => {
             <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Example Scenario</h2>
             <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle>Sample Bids from 3 Couples</CardTitle>
+                <CardTitle>Sample Bids from 5 Couples</CardTitle>
                 <CardDescription>
                   See how the algorithm assigns rooms fairly based on preferences
                 </CardDescription>
@@ -150,8 +162,9 @@ const Algorithm = () => {
                 <div className="mt-6 p-4 bg-accent/50 rounded-lg">
                   <p className="text-sm text-foreground">
                     <strong>Result:</strong> Each couple gets their most preferred available room, 
-                    and pays less than their maximum bid. Total collected: $2,900. 
-                    Surplus of $1,100 split equally = $367 refund per couple.
+                    and pays less than their maximum bid. Total collected: $1,050. 
+                    Singles pay half of cheapest room (E = $50, so $25 each). 
+                    Any surplus split equally among all participants.
                   </p>
                 </div>
               </CardContent>
@@ -179,6 +192,7 @@ const Algorithm = () => {
                 <p className="text-muted-foreground mb-6">
                   The process is simple, fair, and designed to make everyone happy.
                   Don't want to participate? You can bid equally on all rooms or not submit a form at all.
+                  Singles will be assigned the cheapest room and pay half the cost.
                 </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
