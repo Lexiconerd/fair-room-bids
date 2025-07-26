@@ -32,11 +32,11 @@ const Bidding = () => {
   const honeypotRef = useRef("");
 
   const rooms = [
-    { id: "roomA", label: "Room A", name: "Bedroom 1 (4 people)" },
-    { id: "roomB", label: "Room B", name: "Bedroom 2" },
-    { id: "roomC", label: "Room C", name: "Bedroom 3" },
-    { id: "roomD", label: "Room D", name: "Bedroom 4" },
-    { id: "roomE", label: "Room E", name: "Bedroom 5" }
+    { id: "roomA", label: "Bedroom 1" },
+    { id: "roomB", label: "Bedroom 2" },
+    { id: "roomC", label: "Bedroom 3" },
+    { id: "roomD", label: "Bedroom 4" },
+    { id: "roomE", label: "Bedroom 5" }
   ];
 
   // Calculate total whenever room bids change
@@ -63,6 +63,24 @@ const Bidding = () => {
       .replace(/on\w+=/gi, ''); // Remove event handlers
   };
 
+  const formatCurrency = (value: string): string => {
+    // Remove all non-numeric characters except decimal point
+    const numericValue = value.replace(/[^0-9.]/g, '');
+    
+    // Handle multiple decimal points
+    const parts = numericValue.split('.');
+    if (parts.length > 2) {
+      return parts[0] + '.' + parts.slice(1).join('');
+    }
+    
+    // Limit to 2 decimal places
+    if (parts[1] && parts[1].length > 2) {
+      return parts[0] + '.' + parts[1].substring(0, 2);
+    }
+    
+    return numericValue;
+  };
+
   const handleInputChange = (field: string, value: string) => {
     let sanitizedValue = value;
     
@@ -73,8 +91,8 @@ const Bidding = () => {
     } else if (field === 'comments') {
       sanitizedValue = sanitizeInput(value, 1000);
     } else if (field.startsWith('room')) {
-      // For room bids, only allow numbers and basic characters
-      sanitizedValue = value.replace(/[^0-9.]/, '');
+      // For room bids, format as currency without $ sign
+      sanitizedValue = formatCurrency(value);
     }
     
     setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
@@ -346,19 +364,22 @@ const Bidding = () => {
                   
                   {rooms.map((room) => (
                     <div key={room.id}>
-                      <Label htmlFor={room.id}>{room.label} - {room.name} ($)</Label>
-                      <Input
-                        id={room.id}
-                        name={room.id}
-                        type="number"
-                        min="0"
-                        step="25"
-                        value={formData[room.id as keyof typeof formData]}
-                        onChange={(e) => handleInputChange(room.id, e.target.value)}
-                        placeholder="0"
-                        className={errors[room.id] ? "border-destructive" : ""}
-                        disabled={isSubmitting}
-                      />
+                      <Label htmlFor={room.id}>{room.label}</Label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                          $
+                        </span>
+                        <Input
+                          id={room.id}
+                          name={room.id}
+                          type="text"
+                          value={formData[room.id as keyof typeof formData]}
+                          onChange={(e) => handleInputChange(room.id, e.target.value)}
+                          placeholder="0"
+                          className={`pl-8 ${errors[room.id] ? "border-destructive" : ""}`}
+                          disabled={isSubmitting}
+                        />
+                      </div>
                       {errors[room.id] && <p className="text-sm text-destructive mt-1">{errors[room.id]}</p>}
                     </div>
                   ))}
@@ -426,7 +447,6 @@ const Bidding = () => {
               </form>
             </CardContent>
           </Card>
-
 
           {/* Contact Info */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
