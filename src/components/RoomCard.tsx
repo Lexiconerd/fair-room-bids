@@ -1,31 +1,52 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface RoomCardProps {
   letter: string;
   name: string;
-  image: string;
+  image: string | string[];
   features: string[];
   description: string;
   highlight?: string;
 }
 
 const RoomCard = ({ letter, name, image, features, description, highlight }: RoomCardProps) => {
+  const images = Array.isArray(image) ? image : [image];
+  
   return (
     <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-card border-border">
       <div className="relative overflow-hidden rounded-t-lg">
-        <img 
-          src={image} 
-          alt={name}
-          className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-        />
-        <div className="absolute top-4 left-4">
+        {images.length > 1 ? (
+          <Carousel className="w-full">
+            <CarouselContent>
+              {images.map((img, index) => (
+                <CarouselItem key={index}>
+                  <img 
+                    src={img} 
+                    alt={`${name} - Image ${index + 1}`}
+                    className="w-full h-48 object-cover"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
+        ) : (
+          <img 
+            src={images[0]} 
+            alt={name}
+            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          />
+        )}
+        <div className="absolute top-4 left-4 z-10">
           <Badge variant="secondary" className="text-lg font-bold px-3 py-1">
             Room {letter}
           </Badge>
         </div>
         {highlight && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 z-10">
             <Badge className="bg-primary text-primary-foreground">
               {highlight}
             </Badge>

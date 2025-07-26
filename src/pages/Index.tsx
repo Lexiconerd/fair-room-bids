@@ -3,10 +3,12 @@ import Navigation from "@/components/Navigation";
 import RoomCard from "@/components/RoomCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Users, DollarSign, Award } from "lucide-react";
+import { ArrowRight, Users, DollarSign, Award, ExternalLink } from "lucide-react";
 
 // Import room images
 import roomAImage from "@/assets/room-a.jpg";
+import roomA2Image from "@/assets/room-a-2.jpg";
+import roomA3Image from "@/assets/room-a-3.jpg";
 import roomBImage from "@/assets/room-b.jpg";
 import roomCImage from "@/assets/room-c.jpg";
 import roomDImage from "@/assets/room-d.jpg";
@@ -17,7 +19,7 @@ const Index = () => {
     {
       letter: "A",
       name: "Ocean View Master",
-      image: roomAImage,
+      image: [roomAImage, roomA2Image, roomA3Image],
       features: ["Ocean View", "King Bed", "En-suite Bathroom", "Private Balcony"],
       description: "Wake up to breathtaking ocean views in this luxury master bedroom with private balcony and spa-like bathroom.",
       highlight: "Most Popular"
@@ -85,6 +87,16 @@ const Index = () => {
             across five beautiful bedrooms based on your preferences. Our algorithm ensures everyone 
             gets the best possible outcome.
           </p>
+          <div className="mb-6">
+            <a 
+              href="https://www.airbnb.com/rooms/10743612" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
+            >
+              View Full Airbnb Listing <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/algorithm">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
@@ -137,7 +149,7 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {rooms.map((room) => (
             <RoomCard key={room.letter} {...room} />
           ))}
