@@ -116,11 +116,11 @@ const Algorithm = () => {
                     <thead>
                       <tr className="border-b border-border">
                         <th className="text-left p-3 font-semibold">Couple</th>
-                        <th className="text-center p-3 font-semibold">Room A</th>
-                        <th className="text-center p-3 font-semibold">Room B</th>
-                        <th className="text-center p-3 font-semibold">Room C</th>
-                        <th className="text-center p-3 font-semibold">Room D</th>
-                        <th className="text-center p-3 font-semibold">Room E</th>
+                        <th className="text-center p-3 font-semibold">Bedroom 1</th>
+                        <th className="text-center p-3 font-semibold">Bedroom 2</th>
+                        <th className="text-center p-3 font-semibold">Bedroom 3</th>
+                        <th className="text-center p-3 font-semibold">Bedroom 4</th>
+                        <th className="text-center p-3 font-semibold">Bedroom 5</th>
                         <th className="text-center p-3 font-semibold">Assigned</th>
                         <th className="text-center p-3 font-semibold">Payment</th>
                       </tr>
