@@ -35,49 +35,63 @@ const Algorithm = () => {
       bids: { A: 800, B: 650, C: 550, D: 500, E: 500 },
       assigned: "A",
       payment: 750,
-      type: "couple"
+      type: "couple",
+      bidForAssigned: 800,
+      savings: 50
     },
     {
       couple: "Morgan & Casey", 
       bids: { A: 750, B: 775, C: 600, D: 550, E: 500 },
       assigned: "B",
       payment: 650,
-      type: "couple"
+      type: "couple",
+      bidForAssigned: 775,
+      savings: 125
     },
     {
       couple: "Taylor & Jordan",
       bids: { A: 700, B: 650, C: 825, D: 600, E: 500 },
       assigned: "C",
       payment: 600,
-      type: "couple"
+      type: "couple",
+      bidForAssigned: 825,
+      savings: 225
     },
     {
       couple: "Sam & Riley",
       bids: { A: 650, B: 600, C: 650, D: 775, E: 500 },
       assigned: "D",
       payment: 600,
-      type: "couple"
+      type: "couple",
+      bidForAssigned: 775,
+      savings: 175
     },
     {
       couple: "Robin & Sage",
       bids: { A: 600, B: 575, C: 575, D: 625, E: 800 },
       assigned: "E",
       payment: 500,
-      type: "couple"
+      type: "couple",
+      bidForAssigned: 800,
+      savings: 300
     },
     {
       couple: "Chris (Single)",
       bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
       assigned: "A",
       payment: 250,
-      type: "single"
+      type: "single",
+      bidForAssigned: "—",
+      savings: "—"
     },
     {
       couple: "Avery (Single)",
       bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
       assigned: "A",
       payment: 250,
-      type: "single"
+      type: "single",
+      bidForAssigned: "—",
+      savings: "—"
     }
   ];
 
@@ -155,6 +169,7 @@ const Algorithm = () => {
                         <th className="text-center p-3 font-semibold">Room E</th>
                         <th className="text-center p-3 font-semibold">Assigned</th>
                         <th className="text-center p-3 font-semibold">Payment</th>
+                        <th className="text-center p-3 font-semibold">Savings</th>
                       </tr>
                     </thead>
                     <tbody>
