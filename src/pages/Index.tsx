@@ -18,7 +18,7 @@ const Index = () => {
   const rooms = [
     {
       letter: "A",
-      name: "Ocean View Master",
+      name: "Bedroom 1",
       image: [roomAImage, roomA2Image, roomA3Image],
       features: ["Ocean View", "King Bed", "En-suite Bathroom", "Private Balcony"],
       description: "Wake up to breathtaking ocean views in this luxury master bedroom with private balcony and spa-like bathroom.",
@@ -26,28 +26,28 @@ const Index = () => {
     },
     {
       letter: "B", 
-      name: "Cozy Brick Loft",
+      name: "Bedroom 2",
       image: roomBImage,
       features: ["Exposed Brick", "Queen Bed", "Reading Nook", "Ambient Lighting"],
       description: "Industrial charm meets comfort in this unique loft space with exposed brick walls and cozy atmosphere."
     },
     {
       letter: "C",
-      name: "Luxury Suite", 
+      name: "Bedroom 3", 
       image: roomCImage,
       features: ["Walk-in Closet", "Marble Bathroom", "Chandelier", "Sitting Area"],
       description: "Indulge in luxury with this elegant suite featuring premium finishes and sophisticated decor."
     },
     {
       letter: "D",
-      name: "Modern Industrial",
+      name: "Bedroom 4",
       image: roomDImage, 
       features: ["High Ceilings", "Floor-to-ceiling Windows", "Minimalist Design", "City View"],
       description: "Contemporary design meets urban sophistication in this sleek industrial-style bedroom."
     },
     {
       letter: "E",
-      name: "Garden Paradise",
+      name: "Bedroom 5",
       image: roomEImage,
       features: ["Garden Access", "French Doors", "Natural Materials", "Morning Light"],
       description: "Connect with nature in this serene room featuring direct garden access and natural botanical elements."
