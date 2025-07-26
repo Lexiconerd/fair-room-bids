@@ -32,44 +32,51 @@ const Algorithm = () => {
   const exampleBids = [
     {
       couple: "Alex & Jamie",
-      bids: { A: 950, B: 750, C: 600, D: 500, E: 475 },
+      bids: { A: 800, B: 650, C: 550, D: 500, E: 500 },
       assigned: "A",
-      payment: 900,
-      type: "couple"
-    },
-    {
-      couple: "Morgan & Casey", 
-      bids: { A: 900, B: 825, C: 700, D: 550, E: 475 },
-      assigned: "B",
       payment: 750,
       type: "couple"
     },
     {
+      couple: "Morgan & Casey", 
+      bids: { A: 750, B: 775, C: 600, D: 550, E: 500 },
+      assigned: "B",
+      payment: 650,
+      type: "couple"
+    },
+    {
       couple: "Taylor & Jordan",
-      bids: { A: 750, B: 700, C: 850, D: 700, E: 475 },
+      bids: { A: 700, B: 650, C: 825, D: 600, E: 500 },
       assigned: "C",
-      payment: 700,
+      payment: 600,
       type: "couple"
     },
     {
       couple: "Sam & Riley",
-      bids: { A: 650, B: 650, C: 675, D: 825, E: 475 },
+      bids: { A: 650, B: 600, C: 650, D: 775, E: 500 },
       assigned: "D",
-      payment: 700,
+      payment: 600,
+      type: "couple"
+    },
+    {
+      couple: "Robin & Sage",
+      bids: { A: 600, B: 575, C: 575, D: 625, E: 800 },
+      assigned: "E",
+      payment: 500,
       type: "couple"
     },
     {
       couple: "Chris (Single)",
       bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
-      assigned: "E",
-      payment: 237.50,
+      assigned: "A",
+      payment: 250,
       type: "single"
     },
     {
       couple: "Avery (Single)",
       bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
-      assigned: "E",
-      payment: 237.50,
+      assigned: "A",
+      payment: 250,
       type: "single"
     }
   ];
@@ -130,9 +137,9 @@ const Algorithm = () => {
             <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Realistic Example Scenario</h2>
             <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle>Sample Allocation: 4 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
+                <CardTitle>Sample Allocation: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
                 <CardDescription>
-                  See how the VCG mechanism handles mixed participation with realistic bid values
+                  See how the VCG mechanism assigns all 5 couples to different rooms, with singles sharing the largest room
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -180,11 +187,12 @@ const Algorithm = () => {
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
                     <h4 className="font-semibold text-foreground mb-2">VCG Auction Results:</h4>
                     <ul className="text-sm text-foreground space-y-1">
-                      <li>• Each couple gets their most preferred available room</li>
-                      <li>• Couples pay the "social opportunity cost" (second-highest bid for their room)</li>
-                      <li>• Room E (cheapest) costs $475, so singles pay $237.50 each</li>
-                      <li>• Total collected: $3,050 from couples + $475 from singles = $3,525</li>
-                      <li>• Surplus of $250 distributed equally among all 6 participants ($41.67 each)</li>
+                      <li>• All 5 couples get assigned to different rooms based on their highest bids</li>
+                      <li>• Each couple pays the second-highest bid for their assigned room (VCG pricing)</li>
+                      <li>• Lowest winning bid is $500 (Room E), so singles pay $250 each</li>
+                      <li>• Singles share Room A (4-person capacity) with Alex & Jamie</li>
+                      <li>• Total collected: $2,500 from couples + $500 from singles = $3,000</li>
+                      <li>• Shortfall of $275 split equally among all 7 participants ($39.29 each)</li>
                       <li>• <strong>Final total: Exactly $3,275 to cover Airbnb costs</strong></li>
                     </ul>
                   </div>
@@ -192,9 +200,10 @@ const Algorithm = () => {
                   <div className="p-4 bg-accent/50 rounded-lg">
                     <h4 className="font-semibold text-foreground mb-2">Why This Allocation is Optimal:</h4>
                     <p className="text-sm text-foreground">
-                      The VCG mechanism maximizes total welfare by ensuring each room goes to the participant(s) 
-                      who value it most. Since singles didn't bid, they're assigned the remaining room at cost. 
-                      The payment structure incentivizes truthful bidding and prevents strategic manipulation.
+                      The VCG mechanism maximizes total welfare by assigning each couple to their most preferred 
+                      available room. Since Room A has 4-person capacity, it can accommodate both the winning 
+                      couple and the two non-bidding singles. The payment structure incentivizes truthful 
+                      bidding and ensures efficient allocation across all participants.
                     </p>
                   </div>
                 </div>
