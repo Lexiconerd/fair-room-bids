@@ -35,18 +35,18 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
         onKeyDown={handleKeyDown}
       >
         <div className="relative w-full h-full flex items-center justify-center">
-          {/* Close button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-4 right-4 z-10 bg-black/30 hover:bg-black/50 text-white border-none"
-            onClick={onClose}
-          >
-            <X className="h-6 w-6" />
-          </Button>
+          {/* Main image container with close button */}
+          <div className="relative max-w-full max-h-full flex items-center justify-center p-8">
+            {/* Close button positioned relative to image */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute -top-2 -right-2 z-10 bg-black/50 hover:bg-black/70 text-white border-none rounded-full"
+              onClick={onClose}
+            >
+              <X className="h-5 w-5" />
+            </Button>
 
-          {/* Main image */}
-          <div className="relative w-full h-full flex items-center justify-center p-8">
             <img
               src={images[currentIndex]}
               alt={`${roomName || 'Room'} - Image ${currentIndex + 1}`}
