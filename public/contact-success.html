@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submitted - Villa Serenity</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .success { color: #22c55e; font-size: 24px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="success">✓ Form Submitted Successfully!</div>
+    <p>Thank you for submitting your room bids. We'll process them shortly.</p>
+    <a href="/" style="color: #3b82f6; text-decoration: none;">← Return to Home</a>
+    
+    <!-- Hidden form for Netlify detection -->
+    <form name="room-bidding" netlify netlify-honeypot="bot-field" hidden action="/contact-success.html">
+        <input type="text" name="names" />
+        <input type="email" name="email" />
+        <input type="number" name="roomA" />
+        <input type="number" name="roomB" />
+        <input type="number" name="roomC" />
+        <input type="number" name="roomD" />
+        <input type="number" name="roomE" />
+        <textarea name="comments"></textarea>
+        <input type="text" name="bot-field" />
+    </form>
+</body>
+</html>
