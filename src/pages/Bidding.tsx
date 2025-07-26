@@ -30,11 +30,11 @@ const Bidding = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const rooms = [
-    { id: "roomA", label: "Room A", name: "Ocean View Master (4 people)" },
-    { id: "roomB", label: "Room B", name: "Cozy Brick Loft" },
-    { id: "roomC", label: "Room C", name: "Luxury Suite" },
-    { id: "roomD", label: "Room D", name: "Modern Industrial" },
-    { id: "roomE", label: "Room E", name: "Garden Paradise" }
+    { id: "roomA", label: "Room A", name: "Bedroom 1 (4 people)" },
+    { id: "roomB", label: "Room B", name: "Bedroom 2" },
+    { id: "roomC", label: "Room C", name: "Bedroom 3" },
+    { id: "roomD", label: "Room D", name: "Bedroom 4" },
+    { id: "roomE", label: "Room E", name: "Bedroom 5" }
   ];
 
   // Calculate total whenever room bids change
