@@ -10,13 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertCircle, DollarSign, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Helper function to encode form data for Netlify
-const encode = (data: Record<string, string>) => {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-};
-
 const Bidding = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -109,32 +102,38 @@ const Bidding = () => {
       });
       return;
     }
-  
+
     setIsSubmitting(true);
-  
+
     try {
-      const formData = new FormData();
-      formData.append("form-name", "room-bidding");
-      formData.append("names", formData.names);
-      formData.append("email", formData.email);
-      formData.append("roomA", formData.roomA);
-      formData.append("roomB", formData.roomB);
-      formData.append("roomC", formData.roomC);
-      formData.append("roomD", formData.roomD);
-      formData.append("roomE", formData.roomE);
-      formData.append("comments", formData.comments);
-  
+      // Method 1: Try with FormData (recommended for Netlify)
+      const netlifyFormData = new FormData();
+      netlifyFormData.append("form-name", "room-bidding");
+      netlifyFormData.append("names", formData.names);
+      netlifyFormData.append("email", formData.email);
+      netlifyFormData.append("roomA", formData.roomA);
+      netlifyFormData.append("roomB", formData.roomB);
+      netlifyFormData.append("roomC", formData.roomC);
+      netlifyFormData.append("roomD", formData.roomD);
+      netlifyFormData.append("roomE", formData.roomE);
+      netlifyFormData.append("comments", formData.comments);
+
+      console.log("Submitting form data:", Object.fromEntries(netlifyFormData));
+
       const response = await fetch("/", {
         method: "POST",
-        body: formData
+        body: netlifyFormData
       });
-  
+
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+
       if (response.ok) {
         toast({
           title: "Bids submitted successfully!",
           description: "Thank you for participating in the fair bidding system.",
         });
-  
+
         // Reset form
         setFormData({
           names: "",
@@ -147,16 +146,71 @@ const Bidding = () => {
           comments: ""
         });
       } else {
+        // Log response for debugging
+        const responseText = await response.text();
+        console.error("Form submission failed:", response.status, responseText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
     } catch (error) {
       console.error("Form submission error:", error);
-      toast({
-        title: "Submission failed",
-        description: "Please try again or contact support if the problem persists.",
-        variant: "destructive"
-      });
+      
+      // Fallback: Try URL-encoded format
+      try {
+        console.log("Trying fallback URL-encoded submission...");
+        
+        const encode = (data: Record<string, string>) => {
+          return Object.keys(data)
+            .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+            .join("&");
+        };
+
+        const fallbackResponse = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encode({
+            "form-name": "room-bidding",
+            names: formData.names,
+            email: formData.email,
+            roomA: formData.roomA,
+            roomB: formData.roomB,
+            roomC: formData.roomC,
+            roomD: formData.roomD,
+            roomE: formData.roomE,
+            comments: formData.comments,
+          }),
+        });
+
+        console.log("Fallback response status:", fallbackResponse.status);
+
+        if (fallbackResponse.ok) {
+          toast({
+            title: "Bids submitted successfully!",
+            description: "Thank you for participating in the fair bidding system.",
+          });
+
+          // Reset form
+          setFormData({
+            names: "",
+            email: "",
+            roomA: "",
+            roomB: "",
+            roomC: "",
+            roomD: "",
+            roomE: "",
+            comments: ""
+          });
+        } else {
+          throw new Error("Both submission methods failed");
+        }
+      } catch (fallbackError) {
+        console.error("Fallback submission also failed:", fallbackError);
+        toast({
+          title: "Submission failed",
+          description: "Please try again or contact support if the problem persists. Check browser console for details.",
+          variant: "destructive"
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -209,18 +263,7 @@ const Bidding = () => {
             </CardHeader>
             
             <CardContent>
-              <form 
-                name="room-bidding" 
-                method="POST" 
-                data-netlify="true" 
-                data-netlify-honeypot="bot-field"
-                onSubmit={handleSubmit} 
-                className="space-y-6"
-              >
-                {/* Hidden inputs for Netlify */}
-                <input type="hidden" name="form-name" value="room-bidding" />
-                <input type="hidden" name="bot-field" />
-
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Personal Information */}
                 <div className="space-y-4">
                   <div>
@@ -326,6 +369,20 @@ const Bidding = () => {
                   {isValid && !isSubmitting && <CheckCircle className="ml-2 h-4 w-4" />}
                 </Button>
               </form>
+            </CardContent>
+          </Card>
+
+          {/* Debug Section (remove in production) */}
+          <Card className="mt-8 bg-gray-50 border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-sm">Debug Information</CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs space-y-1">
+              <div>Weighted Total: ${weightedTotal}</div>
+              <div>Valid: {isValid ? "Yes" : "No"}</div>
+              <div>Form Action: POST to "/"</div>
+              <div>Current URL: {window.location.href}</div>
+              <div>Check browser console for submission logs</div>
             </CardContent>
           </Card>
 
