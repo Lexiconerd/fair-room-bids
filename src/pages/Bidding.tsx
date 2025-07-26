@@ -45,8 +45,9 @@ const Bidding = () => {
     const regularTotal = allBids.reduce((acc, bid) => acc + bid, 0);
     
     // Find the lowest bid and double it (singles pay half of cheapest room)
-    const lowestBid = allBids.length > 0 ? Math.min(...allBids.filter(bid => bid > 0)) : 0;
-    const weighted = regularTotal + (lowestBid || 0); // Add lowest bid once more
+    const positiveBids = allBids.filter(bid => bid > 0);
+    const lowestBid = positiveBids.length > 0 ? Math.min(...positiveBids) : 0;
+    const weighted = regularTotal + lowestBid; // Add lowest bid once more
     
     setTotal(regularTotal);
     setWeightedTotal(weighted);
