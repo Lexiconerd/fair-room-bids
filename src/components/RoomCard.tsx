@@ -40,11 +40,6 @@ const RoomCard = ({ letter, name, image, features, description, highlight }: Roo
             className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
           />
         )}
-        <div className="absolute top-4 left-4 z-10">
-          <Badge variant="secondary" className="text-lg font-bold px-3 py-1">
-            Room {letter}
-          </Badge>
-        </div>
         {highlight && (
           <div className="absolute top-4 right-4 z-10">
             <Badge className="bg-primary text-primary-foreground">
