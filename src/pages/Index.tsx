@@ -10,6 +10,7 @@ import roomAImage from "@/assets/room-a.jpg";
 import roomA2Image from "@/assets/room-a-2.jpg";
 import roomA3Image from "@/assets/room-a-3.jpg";
 import roomBImage from "@/assets/room-b.jpg";
+import roomB2Image from "@/assets/room-b-2.jpg";
 import roomCImage from "@/assets/room-c.jpg";
 import roomDImage from "@/assets/room-d.jpg";
 import roomEImage from "@/assets/room-e.jpg";
@@ -27,7 +28,7 @@ const Index = () => {
     {
       letter: "B", 
       name: "Bedroom 2",
-      image: roomBImage,
+      image: [roomBImage, roomB2Image],
       features: ["Exposed Brick", "Queen Bed", "Reading Nook", "Ambient Lighting"],
       description: "Industrial charm meets comfort in this unique loft space with exposed brick walls and cozy atmosphere."
     },
