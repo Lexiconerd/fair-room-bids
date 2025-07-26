@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,6 +28,8 @@ const Bidding = () => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const lastSubmissionTime = useRef(0);
+  const honeypotRef = useRef("");
 
   const rooms = [
     { id: "roomA", label: "Room A", name: "Bedroom 1 (4 people)" },
@@ -51,8 +53,30 @@ const Bidding = () => {
     setIsValid(weighted === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
   }, [formData]);
 
+  const sanitizeInput = (input: string, maxLength: number = 500): string => {
+    return input
+      .trim()
+      .slice(0, maxLength)
+      .replace(/[<>]/g, '') // Remove potential XSS characters
+      .replace(/javascript:/gi, '') // Remove javascript: protocol
+      .replace(/on\w+=/gi, ''); // Remove event handlers
+  };
+
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    let sanitizedValue = value;
+    
+    if (field === 'names') {
+      sanitizedValue = sanitizeInput(value, 100);
+    } else if (field === 'email') {
+      sanitizedValue = sanitizeInput(value, 254);
+    } else if (field === 'comments') {
+      sanitizedValue = sanitizeInput(value, 1000);
+    } else if (field.startsWith('room')) {
+      // For room bids, only allow numbers and basic characters
+      sanitizedValue = value.replace(/[^0-9.]/, '');
+    }
+    
+    setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
     
     // Clear error when user starts typing
     if (errors[field]) {
@@ -63,26 +87,45 @@ const Bidding = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
+    // Enhanced validation with length checks
     if (!formData.names.trim()) {
       newErrors.names = "Names are required";
+    } else if (formData.names.length < 2) {
+      newErrors.names = "Names must be at least 2 characters";
+    } else if (formData.names.length > 100) {
+      newErrors.names = "Names must be less than 100 characters";
     }
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+    } else if (formData.email.length > 254) {
+      newErrors.email = "Email address is too long";
     }
 
-    // Check individual room bids
+    // Enhanced room bid validation
     rooms.forEach(room => {
       const value = parseFloat(formData[room.id as keyof typeof formData] as string) || 0;
       if (value < 0) {
         newErrors[room.id] = "Bid cannot be negative";
+      } else if (value > 10000) {
+        newErrors[room.id] = "Bid cannot exceed $10,000";
       }
     });
 
+    // Comments validation
+    if (formData.comments.length > 1000) {
+      newErrors.comments = "Comments must be less than 1000 characters";
+    }
+
     if (weightedTotal !== 3275) {
       newErrors.total = "Total weighted bids must equal exactly $3,275 (lowest bid counts double for singles)";
+    }
+
+    // Honeypot check
+    if (honeypotRef.current) {
+      newErrors.bot = "Bot detected";
     }
 
     setErrors(newErrors);
@@ -91,6 +134,17 @@ const Bidding = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Rate limiting check
+    const now = Date.now();
+    if (now - lastSubmissionTime.current < 5000) {
+      toast({
+        title: "Please wait",
+        description: "You can only submit once every 5 seconds",
+        variant: "destructive"
+      });
+      return;
+    }
     
     if (!validateForm()) {
       toast({
@@ -101,30 +155,27 @@ const Bidding = () => {
       return;
     }
 
+    lastSubmissionTime.current = now;
     setIsSubmitting(true);
 
     try {
       // Method 1: Try with FormData (recommended for Netlify)
       const netlifyFormData = new FormData();
       netlifyFormData.append("form-name", "room-bidding");
-      netlifyFormData.append("names", formData.names);
-      netlifyFormData.append("email", formData.email);
+      netlifyFormData.append("names", sanitizeInput(formData.names, 100));
+      netlifyFormData.append("email", sanitizeInput(formData.email, 254));
       netlifyFormData.append("roomA", formData.roomA);
       netlifyFormData.append("roomB", formData.roomB);
       netlifyFormData.append("roomC", formData.roomC);
       netlifyFormData.append("roomD", formData.roomD);
       netlifyFormData.append("roomE", formData.roomE);
-      netlifyFormData.append("comments", formData.comments);
-
-      console.log("Submitting form data:", Object.fromEntries(netlifyFormData));
+      netlifyFormData.append("comments", sanitizeInput(formData.comments, 1000));
+      netlifyFormData.append("bot-field", honeypotRef.current);
 
       const response = await fetch("/", {
         method: "POST",
         body: netlifyFormData
       });
-
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
 
       if (response.ok) {
         toast({
@@ -144,19 +195,12 @@ const Bidding = () => {
           comments: ""
         });
       } else {
-        // Log response for debugging
-        const responseText = await response.text();
-        console.error("Form submission failed:", response.status, responseText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
     } catch (error) {
-      console.error("Form submission error:", error);
-      
       // Fallback: Try URL-encoded format
       try {
-        console.log("Trying fallback URL-encoded submission...");
-        
         const encode = (data: Record<string, string>) => {
           return Object.keys(data)
             .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -168,18 +212,17 @@ const Bidding = () => {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encode({
             "form-name": "room-bidding",
-            names: formData.names,
-            email: formData.email,
+            names: sanitizeInput(formData.names, 100),
+            email: sanitizeInput(formData.email, 254),
             roomA: formData.roomA,
             roomB: formData.roomB,
             roomC: formData.roomC,
             roomD: formData.roomD,
             roomE: formData.roomE,
-            comments: formData.comments,
+            comments: sanitizeInput(formData.comments, 1000),
+            "bot-field": honeypotRef.current,
           }),
         });
-
-        console.log("Fallback response status:", fallbackResponse.status);
 
         if (fallbackResponse.ok) {
           toast({
@@ -202,10 +245,9 @@ const Bidding = () => {
           throw new Error("Both submission methods failed");
         }
       } catch (fallbackError) {
-        console.error("Fallback submission also failed:", fallbackError);
         toast({
           title: "Submission failed",
-          description: "Please try again or contact support if the problem persists. Check browser console for details.",
+          description: "Please try again or contact support if the problem persists.",
           variant: "destructive"
         });
       }
@@ -351,11 +393,25 @@ const Bidding = () => {
                     name="comments"
                     value={formData.comments}
                     onChange={(e) => handleInputChange("comments", e.target.value)}
-                    placeholder="Any special requests or notes..."
+                    placeholder="Any special requests or notes... (max 1000 characters)"
                     rows={3}
+                    maxLength={1000}
                     disabled={isSubmitting}
                   />
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {formData.comments.length}/1000 characters
+                  </div>
                 </div>
+
+                {/* Honeypot field for bot detection */}
+                <input
+                  type="text"
+                  name="bot-field"
+                  style={{ display: 'none' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  onChange={(e) => honeypotRef.current = e.target.value}
+                />
 
                 <Button 
                   type="submit" 
@@ -370,19 +426,6 @@ const Bidding = () => {
             </CardContent>
           </Card>
 
-          {/* Debug Section (remove in production) */}
-          <Card className="mt-8 bg-gray-50 border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-sm">Debug Information</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs space-y-1">
-              <div>Weighted Total: ${weightedTotal}</div>
-              <div>Valid: {isValid ? "Yes" : "No"}</div>
-              <div>Form Action: POST to "/"</div>
-              <div>Current URL: {window.location.href}</div>
-              <div>Check browser console for submission logs</div>
-            </CardContent>
-          </Card>
 
           {/* Contact Info */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
