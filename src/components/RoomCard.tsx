@@ -40,13 +40,6 @@ const RoomCard = ({ letter, name, image, features, description, highlight }: Roo
             className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
           />
         )}
-        {highlight && (
-          <div className="absolute top-4 right-4 z-10">
-            <Badge className="bg-primary text-primary-foreground">
-              {highlight}
-            </Badge>
-          </div>
-        )}
       </div>
       
       <CardHeader>
