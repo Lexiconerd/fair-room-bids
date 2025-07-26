@@ -10,6 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertCircle, DollarSign, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to encode form data for Netlify
+const encode = (data: Record<string, string>) => {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+};
+
 const Bidding = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -27,6 +34,7 @@ const Bidding = () => {
   const [weightedTotal, setWeightedTotal] = useState(0);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const rooms = [
     { id: "roomA", label: "Room A", name: "Ocean View Master (4 people)" },
@@ -90,7 +98,7 @@ const Bidding = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -102,13 +110,53 @@ const Bidding = () => {
       return;
     }
 
-    toast({
-      title: "Bids submitted successfully!",
-      description: "Thank you for participating in the fair bidding system.",
-    });
+    setIsSubmitting(true);
 
-    // Form would submit to Netlify here
-    console.log("Form submitted:", formData);
+    try {
+      // Submit to Netlify Forms
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "room-bidding",
+          names: formData.names,
+          email: formData.email,
+          roomA: formData.roomA,
+          roomB: formData.roomB,
+          roomC: formData.roomC,
+          roomD: formData.roomD,
+          roomE: formData.roomE,
+          comments: formData.comments,
+        }),
+      });
+
+      toast({
+        title: "Bids submitted successfully!",
+        description: "Thank you for participating in the fair bidding system.",
+      });
+
+      // Reset form
+      setFormData({
+        names: "",
+        email: "",
+        roomA: "",
+        roomB: "",
+        roomC: "",
+        roomD: "",
+        roomE: "",
+        comments: ""
+      });
+
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Submission failed",
+        description: "Please try again or contact support if the problem persists.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getTotalBadgeVariant = () => {
@@ -158,17 +206,30 @@ const Bidding = () => {
             </CardHeader>
             
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form 
+                name="room-bidding" 
+                method="POST" 
+                data-netlify="true" 
+                data-netlify-honeypot="bot-field"
+                onSubmit={handleSubmit} 
+                className="space-y-6"
+              >
+                {/* Hidden inputs for Netlify */}
+                <input type="hidden" name="form-name" value="room-bidding" />
+                <input type="hidden" name="bot-field" />
+
                 {/* Personal Information */}
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="names">Your Names *</Label>
                     <Input
                       id="names"
+                      name="names"
                       value={formData.names}
                       onChange={(e) => handleInputChange("names", e.target.value)}
                       placeholder="e.g., Alex Johnson & Jamie Smith"
                       className={errors.names ? "border-destructive" : ""}
+                      disabled={isSubmitting}
                     />
                     {errors.names && <p className="text-sm text-destructive mt-1">{errors.names}</p>}
                   </div>
@@ -177,11 +238,13 @@ const Bidding = () => {
                     <Label htmlFor="email">Email Address *</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="your.email@example.com"
                       className={errors.email ? "border-destructive" : ""}
+                      disabled={isSubmitting}
                     />
                     {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                   </div>
@@ -199,6 +262,7 @@ const Bidding = () => {
                       <Label htmlFor={room.id}>{room.label} - {room.name} ($)</Label>
                       <Input
                         id={room.id}
+                        name={room.id}
                         type="number"
                         min="0"
                         step="25"
@@ -206,6 +270,7 @@ const Bidding = () => {
                         onChange={(e) => handleInputChange(room.id, e.target.value)}
                         placeholder="0"
                         className={errors[room.id] ? "border-destructive" : ""}
+                        disabled={isSubmitting}
                       />
                       {errors[room.id] && <p className="text-sm text-destructive mt-1">{errors[room.id]}</p>}
                     </div>
@@ -239,10 +304,12 @@ const Bidding = () => {
                   <Label htmlFor="comments">Additional Comments (Optional)</Label>
                   <Textarea
                     id="comments"
+                    name="comments"
                     value={formData.comments}
                     onChange={(e) => handleInputChange("comments", e.target.value)}
                     placeholder="Any special requests or notes..."
                     rows={3}
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -250,10 +317,10 @@ const Bidding = () => {
                   type="submit" 
                   size="lg" 
                   className="w-full" 
-                  disabled={!isValid}
+                  disabled={!isValid || isSubmitting}
                 >
-                  Submit Bids
-                  {isValid && <CheckCircle className="ml-2 h-4 w-4" />}
+                  {isSubmitting ? "Submitting..." : "Submit Bids"}
+                  {isValid && !isSubmitting && <CheckCircle className="ml-2 h-4 w-4" />}
                 </Button>
               </form>
             </CardContent>
