@@ -178,6 +178,7 @@ const Algorithm = () => {
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Submit Your Bids?</h3>
                 <p className="text-muted-foreground mb-6">
                   The process is simple, fair, and designed to make everyone happy.
+                  Don't want to participate? You can bid equally on all rooms or not submit a form at all.
                 </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">

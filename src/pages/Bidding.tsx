@@ -24,11 +24,12 @@ const Bidding = () => {
   });
 
   const [total, setTotal] = useState(0);
+  const [weightedTotal, setWeightedTotal] = useState(0);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const rooms = [
-    { id: "roomA", label: "Room A", name: "Ocean View Master" },
+    { id: "roomA", label: "Room A", name: "Ocean View Master (4 people)" },
     { id: "roomB", label: "Room B", name: "Cozy Brick Loft" },
     { id: "roomC", label: "Room C", name: "Luxury Suite" },
     { id: "roomD", label: "Room D", name: "Modern Industrial" },
@@ -37,12 +38,18 @@ const Bidding = () => {
 
   // Calculate total whenever room bids change
   useEffect(() => {
-    const sum = rooms.reduce((acc, room) => {
+    const roomABid = parseFloat(formData.roomA) || 0;
+    const otherRoomsBids = rooms.slice(1).reduce((acc, room) => {
       const value = parseFloat(formData[room.id as keyof typeof formData] as string) || 0;
       return acc + value;
     }, 0);
-    setTotal(sum);
-    setIsValid(sum === 4000 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
+    
+    const regularTotal = roomABid + otherRoomsBids;
+    const weighted = (roomABid * 2) + otherRoomsBids; // Room A counts double
+    
+    setTotal(regularTotal);
+    setWeightedTotal(weighted);
+    setIsValid(weighted === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
   }, [formData]);
 
   const handleInputChange = (field: string, value: string) => {
@@ -75,8 +82,8 @@ const Bidding = () => {
       }
     });
 
-    if (total !== 4000) {
-      newErrors.total = "Total bids must equal exactly $4,000";
+    if (weightedTotal !== 3275) {
+      newErrors.total = "Total weighted bids must equal exactly $3,275 (Room A counts double)";
     }
 
     setErrors(newErrors);
@@ -105,14 +112,14 @@ const Bidding = () => {
   };
 
   const getTotalBadgeVariant = () => {
-    if (total === 4000) return "default";
-    if (total > 4000) return "destructive";
+    if (weightedTotal === 3275) return "default";
+    if (weightedTotal > 3275) return "destructive";
     return "secondary";
   };
 
   const getTotalColor = () => {
-    if (total === 4000) return "text-primary";
-    if (total > 4000) return "text-destructive";
+    if (weightedTotal === 3275) return "text-primary";
+    if (weightedTotal > 3275) return "text-destructive";
     return "text-muted-foreground";
   };
 
@@ -125,7 +132,7 @@ const Bidding = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Room Bids</h1>
             <p className="text-xl text-muted-foreground">
-              Allocate your $4,000 budget across the 5 rooms based on your preferences
+              Your weighted total must equal $3,275 (Room A counts double as it houses 4 people)
             </p>
           </div>
 
@@ -133,9 +140,9 @@ const Bidding = () => {
           <Alert className="mb-8 border-primary/20 bg-primary/5">
             <DollarSign className="h-4 w-4" />
             <AlertDescription className="text-foreground">
-              <strong>Important:</strong> Your bids must total exactly $4,000. 
-              Bid higher amounts on rooms you prefer more. The system will assign rooms fairly 
-              and you'll typically pay less than your maximum bid.
+              <strong>Important:</strong> Your weighted total must equal exactly $3,275. 
+              Room A counts double (4 people vs 2). Bid higher on rooms you prefer more. 
+              The system will assign rooms fairly and you'll typically pay less than your maximum bid.
             </AlertDescription>
           </Alert>
 
@@ -151,74 +158,102 @@ const Bidding = () => {
             </CardHeader>
             
             <CardContent>
-              <form 
-                name="room-bidding" 
-                method="POST" 
-                data-netlify="true" 
-                data-netlify-honeypot="bot-field"
-                className="space-y-6"
-              >
-                {/* Hidden fields for Netlify */}
-                <input type="hidden" name="form-name" value="room-bidding" />
-                <input type="hidden" name="bot-field" />
-                
-                {/* Rest of your form fields remain the same, but remove React state management */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Personal Information */}
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="names">Your Names *</Label>
                     <Input
                       id="names"
-                      name="names"
+                      value={formData.names}
+                      onChange={(e) => handleInputChange("names", e.target.value)}
                       placeholder="e.g., Alex Johnson & Jamie Smith"
-                      required
+                      className={errors.names ? "border-destructive" : ""}
                     />
+                    {errors.names && <p className="text-sm text-destructive mt-1">{errors.names}</p>}
                   </div>
-              
+
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
                     <Input
                       id="email"
-                      name="email"
                       type="email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="your.email@example.com"
-                      required
+                      className={errors.email ? "border-destructive" : ""}
                     />
+                    {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                   </div>
                 </div>
-              
-                {/* Room bids */}
+
+                {/* Room Bids */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-foreground">Room Bids</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Note: Room A will count double in the total (houses 4 people vs 2)
+                  </p>
                   
-                  <div>
-                    <Label htmlFor="roomA">Room A - Ocean View Master ($)</Label>
-                    <Input
-                      id="roomA"
-                      name="roomA"
-                      type="number"
-                      min="0"
-                      max="4000"
-                      step="50"
-                      placeholder="0"
-                      required
-                    />
-                  </div>
-                  
-                  {/* Repeat for other rooms... */}
+                  {rooms.map((room) => (
+                    <div key={room.id}>
+                      <Label htmlFor={room.id}>{room.label} - {room.name} ($)</Label>
+                      <Input
+                        id={room.id}
+                        type="number"
+                        min="0"
+                        step="25"
+                        value={formData[room.id as keyof typeof formData]}
+                        onChange={(e) => handleInputChange(room.id, e.target.value)}
+                        placeholder="0"
+                        className={errors[room.id] ? "border-destructive" : ""}
+                      />
+                      {errors[room.id] && <p className="text-sm text-destructive mt-1">{errors[room.id]}</p>}
+                    </div>
+                  ))}
                 </div>
-              
+
+                {/* Total Display */}
+                <div className="bg-accent/20 p-4 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Regular Total:</span>
+                    <span className={getTotalColor()}>${total.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Weighted Total (Room A × 2):</span>
+                    <Badge variant={getTotalBadgeVariant()}>
+                      ${weightedTotal.toFixed(2)}
+                      {weightedTotal === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Target: $3,275 {weightedTotal !== 3275 && (
+                      <span className="text-destructive">
+                        ({weightedTotal > 3275 ? '-' : '+'}${Math.abs(weightedTotal - 3275).toFixed(2)})
+                      </span>
+                    )}
+                  </div>
+                  {errors.total && <p className="text-sm text-destructive mt-2">{errors.total}</p>}
+                </div>
+
                 <div>
                   <Label htmlFor="comments">Additional Comments (Optional)</Label>
                   <Textarea
                     id="comments"
-                    name="comments"
+                    value={formData.comments}
+                    onChange={(e) => handleInputChange("comments", e.target.value)}
                     placeholder="Any special requests or notes..."
                     rows={3}
                   />
                 </div>
-              
-                <Button type="submit" size="lg" className="w-full">
+
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full" 
+                  disabled={!isValid}
+                >
                   Submit Bids
+                  {isValid && <CheckCircle className="ml-2 h-4 w-4" />}
                 </Button>
               </form>
             </CardContent>
