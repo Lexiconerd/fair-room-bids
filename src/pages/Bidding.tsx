@@ -152,6 +152,10 @@ const Bidding = () => {
             
             <CardContent>
               <form onSubmit={handleSubmit} data-netlify="true" name="room-bidding" className="space-y-6">
+                
+                {/* Spam protection */}
+                <input type="hidden" name="bot-field" />
+                
                 {/* Basic Information */}
                 <div className="space-y-4">
                   <div>
