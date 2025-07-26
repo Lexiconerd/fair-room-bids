@@ -109,44 +109,47 @@ const Bidding = () => {
       });
       return;
     }
-
+  
     setIsSubmitting(true);
-
+  
     try {
-      // Submit to Netlify Forms
-      await fetch("/", {
+      const formData = new FormData();
+      formData.append("form-name", "room-bidding");
+      formData.append("names", formData.names);
+      formData.append("email", formData.email);
+      formData.append("roomA", formData.roomA);
+      formData.append("roomB", formData.roomB);
+      formData.append("roomC", formData.roomC);
+      formData.append("roomD", formData.roomD);
+      formData.append("roomE", formData.roomE);
+      formData.append("comments", formData.comments);
+  
+      const response = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({
-          "form-name": "room-bidding",
-          names: formData.names,
-          email: formData.email,
-          roomA: formData.roomA,
-          roomB: formData.roomB,
-          roomC: formData.roomC,
-          roomD: formData.roomD,
-          roomE: formData.roomE,
-          comments: formData.comments,
-        }),
+        body: formData
       });
-
-      toast({
-        title: "Bids submitted successfully!",
-        description: "Thank you for participating in the fair bidding system.",
-      });
-
-      // Reset form
-      setFormData({
-        names: "",
-        email: "",
-        roomA: "",
-        roomB: "",
-        roomC: "",
-        roomD: "",
-        roomE: "",
-        comments: ""
-      });
-
+  
+      if (response.ok) {
+        toast({
+          title: "Bids submitted successfully!",
+          description: "Thank you for participating in the fair bidding system.",
+        });
+  
+        // Reset form
+        setFormData({
+          names: "",
+          email: "",
+          roomA: "",
+          roomB: "",
+          roomC: "",
+          roomD: "",
+          roomE: "",
+          comments: ""
+        });
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
     } catch (error) {
       console.error("Form submission error:", error);
       toast({
