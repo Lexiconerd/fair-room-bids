@@ -3,70 +3,83 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, DollarSign, Users, Trophy, CheckCircle } from "lucide-react";
+import { ArrowRight, DollarSign, Users, Trophy, CheckCircle, UserX } from "lucide-react";
 
 const Algorithm = () => {
   const steps = [
     {
       icon: DollarSign,
       title: "Allocate Your Budget",
-      description: "Each couple gets $1,000 to distribute across the 5 rooms based on your preferences."
+      description: "Each bidding couple gets $3,275 to distribute across the 5 rooms based on your preferences. The lowest bid counts double (for singles' costs)."
     },
     {
       icon: Users,
       title: "Submit Bids",
-      description: "All couples submit their bids simultaneously without seeing others' bids."
+      description: "Couples submit their bids simultaneously without seeing others' bids. Some may choose not to participate."
     },
     {
       icon: Trophy,
       title: "Room Assignment",
-      description: "Our algorithm assigns rooms to maximize total satisfaction across all couples."
+      description: "Our Vickrey-Clarke-Groves algorithm assigns rooms to maximize total satisfaction across all participants."
     },
     {
       icon: CheckCircle,
       title: "Fair Pricing",
-      description: "Pay the second-highest bid for your room (usually less than what you bid). Singles pay half of the cheapest room."
+      description: "Pay the second-highest bid for your room (usually less than what you bid). Non-bidding singles pay half of the cheapest assigned room."
     }
   ];
 
   const exampleBids = [
     {
       couple: "Alex & Jamie",
-      bids: { A: 450, B: 300, C: 150, D: 100, E: 0 },
+      bids: { A: 950, B: 750, C: 600, D: 500, E: 475 },
       assigned: "A",
-      payment: 400
+      payment: 900,
+      type: "couple"
     },
     {
-      couple: "Morgan & Casey",
-      bids: { A: 400, B: 200, C: 250, D: 125, E: 25 },
-      assigned: "C",
-      payment: 150
+      couple: "Morgan & Casey", 
+      bids: { A: 900, B: 825, C: 700, D: 550, E: 475 },
+      assigned: "B",
+      payment: 750,
+      type: "couple"
     },
     {
       couple: "Taylor & Jordan",
-      bids: { A: 200, B: 400, C: 150, D: 250, E: 0 },
-      assigned: "B",
-      payment: 200
+      bids: { A: 750, B: 700, C: 850, D: 700, E: 475 },
+      assigned: "C",
+      payment: 700,
+      type: "couple"
     },
     {
       couple: "Sam & Riley",
-      bids: { A: 300, B: 150, C: 200, D: 300, E: 50 },
+      bids: { A: 650, B: 650, C: 675, D: 825, E: 475 },
       assigned: "D",
-      payment: 250
+      payment: 700,
+      type: "couple"
     },
     {
-      couple: "Chris & Avery",
-      bids: { A: 250, B: 250, C: 200, D: 200, E: 100 },
+      couple: "Chris (Single)",
+      bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
       assigned: "E",
-      payment: 50
+      payment: 237.50,
+      type: "single"
+    },
+    {
+      couple: "Avery (Single)",
+      bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
+      assigned: "E",
+      payment: 237.50,
+      type: "single"
     }
   ];
 
   const benefits = [
-    "No strategic manipulation - bidding your true preferences is optimal",
-    "Fair pricing - you never pay more than your maximum willingness",
-    "Efficient allocation - rooms go to those who value them most",
-    "Transparent process - everyone understands how it works"
+    "Strategy-proof mechanism - bidding your true preferences is always optimal",
+    "Fair pricing - you never pay more than your maximum willingness to pay",
+    "Efficient allocation - rooms go to those who value them most highly",
+    "Transparent process - everyone understands the Vickrey-Clarke-Groves rules",
+    "Non-participants accommodated - singles get the remaining room at fair cost"
   ];
 
   return (
@@ -77,10 +90,10 @@ const Algorithm = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4 text-foreground">
-              How the Fair Bidding System Works
+              How the Vickrey-Clarke-Groves Auction Works
             </h1>
             <p className="text-xl text-muted-foreground">
-              A transparent, strategy-proof mechanism that ensures everyone gets their fair share
+              A proven strategy-proof mechanism that ensures optimal room allocation and fair pricing
             </p>
           </div>
 
@@ -114,12 +127,12 @@ const Algorithm = () => {
 
           {/* Example scenario */}
           <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Example Scenario</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Realistic Example Scenario</h2>
             <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle>Sample Bids from 5 Couples</CardTitle>
+                <CardTitle>Sample Allocation: 4 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
                 <CardDescription>
-                  See how the algorithm assigns rooms fairly based on preferences
+                  See how the VCG mechanism handles mixed participation with realistic bid values
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -127,25 +140,28 @@ const Algorithm = () => {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left p-3 font-semibold">Couple</th>
-                        <th className="text-center p-3 font-semibold">Bedroom 1</th>
-                        <th className="text-center p-3 font-semibold">Bedroom 2</th>
-                        <th className="text-center p-3 font-semibold">Bedroom 3</th>
-                        <th className="text-center p-3 font-semibold">Bedroom 4</th>
-                        <th className="text-center p-3 font-semibold">Bedroom 5</th>
+                        <th className="text-left p-3 font-semibold">Participant</th>
+                        <th className="text-center p-3 font-semibold">Room A</th>
+                        <th className="text-center p-3 font-semibold">Room B</th>
+                        <th className="text-center p-3 font-semibold">Room C</th>
+                        <th className="text-center p-3 font-semibold">Room D</th>
+                        <th className="text-center p-3 font-semibold">Room E</th>
                         <th className="text-center p-3 font-semibold">Assigned</th>
                         <th className="text-center p-3 font-semibold">Payment</th>
                       </tr>
                     </thead>
                     <tbody>
                       {exampleBids.map((bid, index) => (
-                        <tr key={index} className="border-b border-border">
-                          <td className="p-3 font-medium">{bid.couple}</td>
-                          <td className="text-center p-3">${bid.bids.A}</td>
-                          <td className="text-center p-3">${bid.bids.B}</td>
-                          <td className="text-center p-3">${bid.bids.C}</td>
-                          <td className="text-center p-3">${bid.bids.D}</td>
-                          <td className="text-center p-3">${bid.bids.E}</td>
+                        <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
+                          <td className="p-3 font-medium">
+                            {bid.couple}
+                            {bid.type === 'single' && <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" />}
+                          </td>
+                          <td className="text-center p-3">{bid.bids.A}</td>
+                          <td className="text-center p-3">{bid.bids.B}</td>
+                          <td className="text-center p-3">{bid.bids.C}</td>
+                          <td className="text-center p-3">{bid.bids.D}</td>
+                          <td className="text-center p-3">{bid.bids.E}</td>
                           <td className="text-center p-3">
                             <Badge className="bg-primary text-primary-foreground">
                               Room {bid.assigned}
@@ -159,21 +175,36 @@ const Algorithm = () => {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-6 p-4 bg-accent/50 rounded-lg">
-                  <p className="text-sm text-foreground">
-                    <strong>Result:</strong> Each couple gets their most preferred available room, 
-                    and pays less than their maximum bid. Total collected: $1,050. 
-                    Singles pay half of cheapest room (E = $50, so $25 each). 
-                    Any surplus split equally among all participants.
-                  </p>
+                
+                <div className="mt-6 space-y-4">
+                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                    <h4 className="font-semibold text-foreground mb-2">VCG Auction Results:</h4>
+                    <ul className="text-sm text-foreground space-y-1">
+                      <li>• Each couple gets their most preferred available room</li>
+                      <li>• Couples pay the "social opportunity cost" (second-highest bid for their room)</li>
+                      <li>• Room E (cheapest) costs $475, so singles pay $237.50 each</li>
+                      <li>• Total collected: $3,050 from couples + $475 from singles = $3,525</li>
+                      <li>• Surplus of $250 distributed equally among all 6 participants ($41.67 each)</li>
+                      <li>• <strong>Final total: Exactly $3,275 to cover Airbnb costs</strong></li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 bg-accent/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground mb-2">Why This Allocation is Optimal:</h4>
+                    <p className="text-sm text-foreground">
+                      The VCG mechanism maximizes total welfare by ensuring each room goes to the participant(s) 
+                      who value it most. Since singles didn't bid, they're assigned the remaining room at cost. 
+                      The payment structure incentivizes truthful bidding and prevents strategic manipulation.
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </section>
 
-          {/* Benefits */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Why This System Is Fair</h2>
+          {/* VCG Properties */}
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Why Vickrey-Clarke-Groves is Ideal</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {benefits.map((benefit, index) => (
                 <div key={index} className="flex items-start space-x-3 p-4 bg-card rounded-lg border border-border">
@@ -184,15 +215,33 @@ const Algorithm = () => {
             </div>
           </section>
 
+          {/* Technical note */}
+          <section className="mb-12">
+            <Card className="bg-muted/30 border-muted">
+              <CardHeader>
+                <CardTitle className="text-lg">About the VCG Mechanism</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground text-sm">
+                  The Vickrey-Clarke-Groves mechanism is a Nobel Prize-winning auction format that guarantees 
+                  truthful bidding is the dominant strategy. Unlike traditional auctions where strategic 
+                  underbidding might be beneficial, VCG ensures that bidding your true valuations always 
+                  yields the best possible outcome for you. This makes the process fair, efficient, and 
+                  eliminates the need for complex bidding strategies.
+                </p>
+              </CardContent>
+            </Card>
+          </section>
+
           {/* Call to action */}
           <div className="text-center">
             <Card className="inline-block bg-gradient-to-r from-primary/10 to-primary-glow/10 border-primary/20">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Submit Your Bids?</h3>
                 <p className="text-muted-foreground mb-6">
-                  The process is simple, fair, and designed to make everyone happy.
-                  Don't want to participate? You can bid equally on all rooms or not submit a form at all.
-                  Singles will be assigned the cheapest room and pay half the cost.
+                  The VCG mechanism is designed to make everyone better off. Simply bid what each room 
+                  is truly worth to you - no strategy needed! Don't want to participate in bidding? 
+                  Singles will be automatically assigned the cheapest room and pay half the cost.
                 </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
