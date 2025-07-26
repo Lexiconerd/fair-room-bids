@@ -31,7 +31,7 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className="max-w-4xl w-full h-[90vh] p-0 bg-background/95 backdrop-blur-sm"
+        className="max-w-4xl w-full h-[90vh] p-0 bg-transparent border-none shadow-none"
         onKeyDown={handleKeyDown}
       >
         <div className="relative w-full h-full flex items-center justify-center">
@@ -39,7 +39,7 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 z-10 bg-background/80 hover:bg-background"
+            className="absolute top-4 right-4 z-10 bg-black/30 hover:bg-black/50 text-white border-none"
             onClick={onClose}
           >
             <X className="h-6 w-6" />
@@ -60,7 +60,7 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 bg-background/80 hover:bg-background"
+                className="absolute left-4 bg-black/30 hover:bg-black/50 text-white"
                 onClick={goToPrevious}
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -68,7 +68,7 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 bg-background/80 hover:bg-background"
+                className="absolute right-4 bg-black/30 hover:bg-black/50 text-white"
                 onClick={goToNext}
               >
                 <ChevronRight className="h-6 w-6" />
@@ -78,7 +78,7 @@ const ImageLightbox = ({ images, isOpen, onClose, initialIndex = 0, roomName }: 
 
           {/* Image counter */}
           {images.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/80 px-3 py-1 rounded-full text-sm">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/30 text-white px-3 py-1 rounded-full text-sm">
               {currentIndex + 1} of {images.length}
             </div>
           )}
