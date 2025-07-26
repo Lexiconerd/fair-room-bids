@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import ImageLightbox from "@/components/ImageLightbox";
 
 interface RoomCardProps {
   letter: string;
@@ -13,6 +15,13 @@ interface RoomCardProps {
 
 const RoomCard = ({ letter, name, image, features, description, highlight }: RoomCardProps) => {
   const images = Array.isArray(image) ? image : [image];
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (index: number = 0) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
   
   return (
     <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-card border-border">
@@ -25,7 +34,8 @@ const RoomCard = ({ letter, name, image, features, description, highlight }: Roo
                   <img 
                     src={img} 
                     alt={`${name} - Image ${index + 1}`}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
+                    onClick={() => openLightbox(index)}
                   />
                 </CarouselItem>
               ))}
@@ -37,7 +47,8 @@ const RoomCard = ({ letter, name, image, features, description, highlight }: Roo
           <img 
             src={images[0]} 
             alt={name}
-            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            className="w-full h-48 object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
+            onClick={() => openLightbox(0)}
           />
         )}
       </div>
@@ -63,6 +74,14 @@ const RoomCard = ({ letter, name, image, features, description, highlight }: Roo
           </div>
         </div>
       </CardContent>
+
+      <ImageLightbox
+        images={images}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        initialIndex={lightboxIndex}
+        roomName={name}
+      />
     </Card>
   );
 };
