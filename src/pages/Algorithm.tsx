@@ -192,6 +192,15 @@ const Algorithm = () => {
                           <td className="text-center p-3 font-semibold text-primary">
                             ${bid.payment}
                           </td>
+                          <td className="text-center p-3">
+                            {bid.type === 'single' ? (
+                              <span className="text-muted-foreground">—</span>
+                            ) : (
+                              <span className="font-semibold text-green-600">
+                                ${bid.savings}
+                              </span>
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -204,6 +213,7 @@ const Algorithm = () => {
                     <ul className="text-sm text-foreground space-y-1">
                       <li>• All 5 couples get assigned to different rooms based on their highest bids</li>
                       <li>• Each couple pays the second-highest bid for their assigned room (VCG pricing)</li>
+                      <li>• <strong>Total savings: $875</strong> - couples save money vs. their maximum willingness to pay</li>
                       <li>• Lowest winning bid is $500 (Room E), so singles pay $250 each</li>
                       <li>• Singles share Room A (4-person capacity) with Alex & Jamie</li>
                       <li>• Total collected: $2,500 from couples + $500 from singles = $3,000</li>
