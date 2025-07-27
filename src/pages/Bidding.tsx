@@ -15,11 +15,11 @@ const Bidding = () => {
   const [formData, setFormData] = useState({
     names: "",
     email: "",
-    roomA: "",
-    roomB: "",
-    roomC: "",
-    roomD: "",
-    roomE: "",
+    firstPick: "",
+    secondPick: "",
+    thirdPick: "",
+    fourthPick: "",
+    fifthPick: "",
     comments: ""
   });
 
@@ -31,27 +31,22 @@ const Bidding = () => {
   const lastSubmissionTime = useRef(0);
   const honeypotRef = useRef("");
 
-  const rooms = [
-    { id: "roomA", label: "Bedroom 1" },
-    { id: "roomB", label: "Bedroom 2" },
-    { id: "roomC", label: "Bedroom 3" },
-    { id: "roomD", label: "Bedroom 4" },
-    { id: "roomE", label: "Bedroom 5" }
+  const pickOrders = [
+    { id: "firstPick", label: "1st Pick (Primary Bedroom)" },
+    { id: "secondPick", label: "2nd Pick (Best remaining)" },
+    { id: "thirdPick", label: "3rd Pick" },
+    { id: "fourthPick", label: "4th Pick" },
+    { id: "fifthPick", label: "5th Pick (Last choice)" }
   ];
 
-  // Calculate total whenever room bids change
+  // Calculate total whenever pick order bids change
   useEffect(() => {
-    const allBids = rooms.map(room => parseFloat(formData[room.id as keyof typeof formData] as string) || 0);
+    const allBids = pickOrders.map(pick => parseFloat(formData[pick.id as keyof typeof formData] as string) || 0);
     const regularTotal = allBids.reduce((acc, bid) => acc + bid, 0);
     
-    // Find the lowest bid and double it (singles pay half of cheapest room)
-    const positiveBids = allBids.filter(bid => bid > 0);
-    const lowestBid = positiveBids.length > 0 ? Math.min(...positiveBids) : 0;
-    const weighted = regularTotal + lowestBid; // Add lowest bid once more
-    
     setTotal(regularTotal);
-    setWeightedTotal(weighted);
-    setIsValid(weighted === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
+    setWeightedTotal(regularTotal); // No doubling for pick order system
+    setIsValid(regularTotal === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
   }, [formData]);
 
   const sanitizeInput = (input: string, maxLength: number = 500): string => {
@@ -90,8 +85,8 @@ const Bidding = () => {
       sanitizedValue = sanitizeInput(value, 254);
     } else if (field === 'comments') {
       sanitizedValue = sanitizeInput(value, 1000);
-    } else if (field.startsWith('room')) {
-      // For room bids, format as currency without $ sign
+    } else if (field.includes('Pick')) {
+      // For pick order bids, format as currency without $ sign
       sanitizedValue = formatCurrency(value);
     }
     
@@ -123,13 +118,13 @@ const Bidding = () => {
       newErrors.email = "Email address is too long";
     }
 
-    // Enhanced room bid validation
-    rooms.forEach(room => {
-      const value = parseFloat(formData[room.id as keyof typeof formData] as string) || 0;
+    // Enhanced pick order bid validation
+    pickOrders.forEach(pick => {
+      const value = parseFloat(formData[pick.id as keyof typeof formData] as string) || 0;
       if (value < 0) {
-        newErrors[room.id] = "Bid cannot be negative";
+        newErrors[pick.id] = "Bid cannot be negative";
       } else if (value > 10000) {
-        newErrors[room.id] = "Bid cannot exceed $10,000";
+        newErrors[pick.id] = "Bid cannot exceed $10,000";
       }
     });
 
@@ -139,7 +134,7 @@ const Bidding = () => {
     }
 
     if (weightedTotal !== 3275) {
-      newErrors.total = "Total weighted bids must equal exactly $3,275 (lowest bid counts double for singles)";
+      newErrors.total = "Total pick order bids must equal exactly $3,275";
     }
 
     // Honeypot check
@@ -180,14 +175,14 @@ const Bidding = () => {
     try {
       // Method 1: Try with FormData (recommended for Netlify)
       const netlifyFormData = new FormData();
-      netlifyFormData.append("form-name", "room-bidding");
+      netlifyFormData.append("form-name", "pick-order-bidding");
       netlifyFormData.append("names", sanitizeInput(formData.names, 100));
       netlifyFormData.append("email", sanitizeInput(formData.email, 254));
-      netlifyFormData.append("roomA", formData.roomA);
-      netlifyFormData.append("roomB", formData.roomB);
-      netlifyFormData.append("roomC", formData.roomC);
-      netlifyFormData.append("roomD", formData.roomD);
-      netlifyFormData.append("roomE", formData.roomE);
+      netlifyFormData.append("firstPick", formData.firstPick);
+      netlifyFormData.append("secondPick", formData.secondPick);
+      netlifyFormData.append("thirdPick", formData.thirdPick);
+      netlifyFormData.append("fourthPick", formData.fourthPick);
+      netlifyFormData.append("fifthPick", formData.fifthPick);
       netlifyFormData.append("comments", sanitizeInput(formData.comments, 1000));
       netlifyFormData.append("bot-field", honeypotRef.current);
 
@@ -206,11 +201,11 @@ const Bidding = () => {
         setFormData({
           names: "",
           email: "",
-          roomA: "",
-          roomB: "",
-          roomC: "",
-          roomD: "",
-          roomE: "",
+          firstPick: "",
+          secondPick: "",
+          thirdPick: "",
+          fourthPick: "",
+          fifthPick: "",
           comments: ""
         });
       } else {
@@ -230,14 +225,14 @@ const Bidding = () => {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encode({
-            "form-name": "room-bidding",
+            "form-name": "pick-order-bidding",
             names: sanitizeInput(formData.names, 100),
             email: sanitizeInput(formData.email, 254),
-            roomA: formData.roomA,
-            roomB: formData.roomB,
-            roomC: formData.roomC,
-            roomD: formData.roomD,
-            roomE: formData.roomE,
+            firstPick: formData.firstPick,
+            secondPick: formData.secondPick,
+            thirdPick: formData.thirdPick,
+            fourthPick: formData.fourthPick,
+            fifthPick: formData.fifthPick,
             comments: sanitizeInput(formData.comments, 1000),
             "bot-field": honeypotRef.current,
           }),
@@ -253,11 +248,11 @@ const Bidding = () => {
           setFormData({
             names: "",
             email: "",
-            roomA: "",
-            roomB: "",
-            roomC: "",
-            roomD: "",
-            roomE: "",
+            firstPick: "",
+            secondPick: "",
+            thirdPick: "",
+            fourthPick: "",
+            fifthPick: "",
             comments: ""
           });
         } else {
@@ -294,9 +289,9 @@ const Bidding = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Room Bids</h1>
+            <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Pick Order Bids</h1>
             <p className="text-xl text-muted-foreground">
-              Your weighted total must equal $3,275 (lowest bid counts double for singles)
+              Your total must equal $3,275 across all pick order positions
             </p>
           </div>
 
@@ -304,9 +299,9 @@ const Bidding = () => {
           <Alert className="mb-8 border-primary/20 bg-primary/5">
             <DollarSign className="h-4 w-4" />
             <AlertDescription className="text-foreground">
-              <strong>Important:</strong> Your weighted total must equal exactly $3,275. 
-              The lowest bid counts double because singles will pay half of the cheapest room. Bid higher on rooms you prefer more. 
-              The system will assign rooms fairly and you'll typically pay less than your maximum bid.
+              <strong>Important:</strong> Your total must equal exactly $3,275. 
+              Bid on pick order positions (1st pick gets Primary bedroom, then choose from bedrooms 1-4). 
+              Singles automatically get bedroom 5 (twin beds) and pay half the lowest couple payment.
             </AlertDescription>
           </Alert>
 
@@ -355,32 +350,32 @@ const Bidding = () => {
                   </div>
                 </div>
 
-                {/* Room Bids */}
+                {/* Pick Order Bids */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-foreground">Room Bids</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Pick Order Bids</h3>
                   <p className="text-sm text-muted-foreground">
-                    Note: The lowest bid will count double in the total (singles pay half of cheapest room)
+                    Bid on your preferred pick order. 1st pick chooses Primary bedroom, then bedrooms 1-4 in order.
                   </p>
                   
-                  {rooms.map((room) => (
-                    <div key={room.id}>
-                      <Label htmlFor={room.id}>{room.label}</Label>
+                  {pickOrders.map((pick) => (
+                    <div key={pick.id}>
+                      <Label htmlFor={pick.id}>{pick.label}</Label>
                       <div className="relative">
                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
                           $
                         </span>
                         <Input
-                          id={room.id}
-                          name={room.id}
+                          id={pick.id}
+                          name={pick.id}
                           type="text"
-                          value={formData[room.id as keyof typeof formData]}
-                          onChange={(e) => handleInputChange(room.id, e.target.value)}
+                          value={formData[pick.id as keyof typeof formData]}
+                          onChange={(e) => handleInputChange(pick.id, e.target.value)}
                           placeholder="0"
-                          className={`pl-8 ${errors[room.id] ? "border-destructive" : ""}`}
+                          className={`pl-8 ${errors[pick.id] ? "border-destructive" : ""}`}
                           disabled={isSubmitting}
                         />
                       </div>
-                      {errors[room.id] && <p className="text-sm text-destructive mt-1">{errors[room.id]}</p>}
+                      {errors[pick.id] && <p className="text-sm text-destructive mt-1">{errors[pick.id]}</p>}
                     </div>
                   ))}
                 </div>
@@ -388,20 +383,16 @@ const Bidding = () => {
                 {/* Total Display */}
                 <div className="bg-accent/20 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Regular Total:</span>
-                    <span className={getTotalColor()}>${total.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Weighted Total (Lowest × 2):</span>
+                    <span className="font-medium">Total Pick Order Bids:</span>
                     <Badge variant={getTotalBadgeVariant()}>
-                      ${weightedTotal.toFixed(2)}
-                      {weightedTotal === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}
+                      ${total.toFixed(2)}
+                      {total === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}
                     </Badge>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Target: $3,275 {weightedTotal !== 3275 && (
+                    Target: $3,275 {total !== 3275 && (
                       <span className="text-destructive">
-                        ({weightedTotal > 3275 ? '-' : '+'}${Math.abs(weightedTotal - 3275).toFixed(2)})
+                        ({total > 3275 ? '-' : '+'}${Math.abs(total - 3275).toFixed(2)})
                       </span>
                     )}
                   </div>

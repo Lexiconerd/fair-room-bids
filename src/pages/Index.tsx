@@ -18,58 +18,65 @@ import roomEImage from "@/assets/room-e.jpg";
 const Index = () => {
   const rooms = [
     {
-      letter: "A",
-      name: "Bedroom 1",
+      letter: "Primary",
+      name: "Primary Bedroom",
       image: [roomAImage, roomA2Image, roomA3Image],
       features: ["Ocean View", "King Bed", "En-suite Bathroom", "Private Balcony"],
       description: "Wake up to breathtaking ocean views in this luxury master bedroom with private balcony and spa-like bathroom.",
-      highlight: "Most Popular"
+      highlight: "First Pick Choice"
     },
     {
-      letter: "B", 
-      name: "Bedroom 2",
+      letter: "1", 
+      name: "Bedroom 1",
       image: [roomBImage, roomB2Image],
       features: ["Exposed Brick", "Queen Bed", "Reading Nook", "Ambient Lighting"],
       description: "Industrial charm meets comfort in this unique loft space with exposed brick walls and cozy atmosphere."
     },
     {
-      letter: "C",
-      name: "Bedroom 3", 
+      letter: "2",
+      name: "Bedroom 2", 
       image: roomCImage,
       features: ["Walk-in Closet", "Marble Bathroom", "Chandelier", "Sitting Area"],
       description: "Indulge in luxury with this elegant suite featuring premium finishes and sophisticated decor."
     },
     {
-      letter: "D",
-      name: "Bedroom 4",
+      letter: "3",
+      name: "Bedroom 3",
       image: roomDImage, 
       features: ["High Ceilings", "Floor-to-ceiling Windows", "Minimalist Design", "City View"],
       description: "Contemporary design meets urban sophistication in this sleek industrial-style bedroom."
     },
     {
-      letter: "E",
-      name: "Bedroom 5",
+      letter: "4",
+      name: "Bedroom 4",
       image: roomEImage,
       features: ["Garden Access", "French Doors", "Natural Materials", "Morning Light"],
       description: "Connect with nature in this serene room featuring direct garden access and natural botanical elements."
+    },
+    {
+      letter: "5",
+      name: "Bedroom 5 (Singles)",
+      image: roomEImage,
+      features: ["Twin Beds", "Shared Space", "Garden View", "Natural Light"],
+      description: "Comfortable twin-bed accommodation for singles, featuring garden views and natural light."
     }
   ];
 
   const features = [
     {
       icon: Users,
-      title: "Fair for Everyone",
-      description: "Our algorithm ensures every couple gets their most preferred available room at a fair price."
+      title: "Fair Pick Order",
+      description: "Our VCG algorithm ensures couples get pick order based on their true preferences at fair prices."
     },
     {
       icon: DollarSign, 
       title: "Transparent Pricing",
-      description: "Pay the second-highest bid for your room - usually less than what you're willing to pay."
+      description: "Pay the second-highest bid for your pick position - usually less than what you're willing to pay."
     },
     {
       icon: Award,
       title: "Strategy-Proof",
-      description: "Bidding your true preferences is always the optimal strategy - no need for games."
+      description: "Bidding your true preferences for pick order is always the optimal strategy - no need for games."
     }
   ];
 
@@ -84,8 +91,8 @@ const Index = () => {
             Welcome to Villa Serenity
           </h1>
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Experience our fair and transparent room bidding system. Each couple allocates $4,000 
-            across five beautiful bedrooms based on your preferences. Our algorithm ensures everyone 
+            Experience our fair and transparent pick order bidding system. Each couple allocates $3,275 
+            across five pick order positions to secure their preferred room selection order. Our VCG algorithm ensures everyone 
             gets the best possible outcome.
           </p>
           <div className="mb-6">
@@ -143,14 +150,14 @@ const Index = () => {
       {/* Room Showcase */}
       <section className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-foreground">Choose Your Perfect Room</h2>
+          <h2 className="text-3xl font-bold mb-4 text-foreground">Available Rooms</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Each room offers unique amenities and charm. Browse the options below and start 
-            planning your ideal allocation.
+            6 bedrooms total: Primary bedroom (1st pick), bedrooms 1-4 (picks 2-5), and bedroom 5 (twins for singles). 
+            Browse and plan your pick order strategy.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {rooms.map((room) => (
             <RoomCard key={room.letter} {...room} />
           ))}
@@ -163,7 +170,7 @@ const Index = () => {
           <CardContent className="p-12">
             <h3 className="text-3xl font-bold mb-4 text-foreground">Ready to Begin?</h3>
             <p className="text-lg text-muted-foreground mb-8">
-              Learn about our fair bidding algorithm or jump straight to submitting your preferences.
+              Learn about our fair pick order algorithm or jump straight to submitting your pick preferences.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/algorithm">

@@ -9,88 +9,95 @@ const Algorithm = () => {
   const steps = [
     {
       icon: DollarSign,
-      title: "Allocate Your Budget",
-      description: "Each bidding couple gets $3,275 to distribute across the 5 rooms based on your preferences. The lowest bid counts double (for singles' costs)."
+      title: "Bid on Pick Order",
+      description: "Each couple bids $3,275 on their preferred picking order (1st, 2nd, 3rd, 4th, 5th pick). Higher bids get earlier picks."
     },
     {
       icon: Users,
       title: "Submit Bids",
-      description: "Couples submit their bids simultaneously without seeing others' bids. Some may choose not to participate."
+      description: "Couples submit their pick order bids simultaneously. Singles don't bid and are assigned bedroom 5 (with twin beds)."
     },
     {
       icon: Trophy,
-      title: "Room Assignment",
-      description: "Our Vickrey-Clarke-Groves algorithm assigns rooms to maximize total satisfaction across all participants."
+      title: "Pick Assignment",
+      description: "VCG algorithm determines pick order. Winners choose from: Primary bedroom, then bedrooms 1-4 based on their pick position."
     },
     {
       icon: CheckCircle,
-      title: "Fair Pricing",
-      description: "Pay the second-highest bid for your room (usually less than what you bid). Non-bidding singles pay half of the cheapest assigned room."
+      title: "VCG Pricing & Redistribution",
+      description: "Pay the second-highest bid for your pick position. Excess funds are redistributed equally among all participants per VCG mechanism."
     }
   ];
 
   const exampleBids = [
     {
       couple: "Alex & Jamie",
-      bids: { A: 450, B: 750, C: 650, D: 600, E: 800 },
-      assigned: "A",
-      payment: 400,
+      bids: { "1st": 1200, "2nd": 900, "3rd": 650, "4th": 350, "5th": 175 },
+      pickOrder: "1st",
+      chosenRoom: "Primary",
+      payment: 1100,
       type: "couple",
-      bidForAssigned: 450,
-      savings: 50
+      bidForPick: 1200,
+      savings: 100
     },
     {
       couple: "Morgan & Casey", 
-      bids: { A: 400, B: 825, C: 700, D: 650, E: 775 },
-      assigned: "B",
-      payment: 750,
+      bids: { "1st": 1100, "2nd": 950, "3rd": 700, "4th": 375, "5th": 150 },
+      pickOrder: "2nd",
+      chosenRoom: "Bedroom 1",
+      payment: 900,
       type: "couple",
-      bidForAssigned: 825,
-      savings: 75
+      bidForPick: 950,
+      savings: 50
     },
     {
       couple: "Taylor & Jordan",
-      bids: { A: 350, B: 700, C: 850, D: 675, E: 700 },
-      assigned: "C",
+      bids: { "1st": 1000, "2nd": 900, "3rd": 800, "4th": 400, "5th": 175 },
+      pickOrder: "3rd",
+      chosenRoom: "Bedroom 2",
       payment: 700,
       type: "couple",
-      bidForAssigned: 850,
-      savings: 150
+      bidForPick: 800,
+      savings: 100
     },
     {
       couple: "Sam & Riley",
-      bids: { A: 375, B: 650, C: 725, D: 825, E: 700 },
-      assigned: "D",
-      payment: 675,
+      bids: { "1st": 950, "2nd": 750, "3rd": 700, "4th": 550, "5th": 325 },
+      pickOrder: "4th",
+      chosenRoom: "Bedroom 3",
+      payment: 400,
       type: "couple",
-      bidForAssigned: 825,
+      bidForPick: 550,
       savings: 150
     },
     {
       couple: "Robin & Sage",
-      bids: { A: 425, B: 675, C: 650, D: 750, E: 775 },
-      assigned: "E",
-      payment: 700,
+      bids: { "1st": 900, "2nd": 700, "3rd": 600, "4th": 400, "5th": 675 },
+      pickOrder: "5th",
+      chosenRoom: "Bedroom 4",
+      payment: 325,
       type: "couple",
-      bidForAssigned: 775,
-      savings: 75
+      bidForPick: 675,
+      savings: 350
     },
     {
       couple: "Chris (Single)",
-      bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
-      assigned: "A",
-      payment: 200,
+      bids: { "1st": "—", "2nd": "—", "3rd": "—", "4th": "—", "5th": "—" },
+      pickOrder: "—",
+      chosenRoom: "Bedroom 5",
+      payment: 162.50,
       type: "single",
-      bidForAssigned: "—",
+      bidForPick: "—",
       savings: "—"
     },
     {
       couple: "Avery (Single)",
-      bids: { A: "—", B: "—", C: "—", D: "—", E: "—" },
-      assigned: "A",
-      payment: 200,
+      bids: { "1st": "—", "2nd": "—", "3rd": "—", "4th": "—", "5th": "—" },
+      pickOrder: "—",
+      chosenRoom: "Bedroom 5",
+      payment: 162.50,
       type: "single",
-      bidForAssigned: "—",
+      bidForPick: "—",
       savings: "—"
     }
   ];
@@ -151,9 +158,9 @@ const Algorithm = () => {
             <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Realistic Example Scenario</h2>
             <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle>Sample Allocation: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
+                <CardTitle>Sample Pick Order Allocation: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
                 <CardDescription>
-                  See how the VCG mechanism assigns all 5 couples to different rooms, with singles sharing the largest room
+                  See how the VCG mechanism determines pick order, with singles automatically assigned bedroom 5 (twin beds)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -162,12 +169,13 @@ const Algorithm = () => {
                     <thead>
                       <tr className="border-b border-border">
                         <th className="text-left p-3 font-semibold">Participant</th>
-                        <th className="text-center p-3 font-semibold">Room A</th>
-                        <th className="text-center p-3 font-semibold">Room B</th>
-                        <th className="text-center p-3 font-semibold">Room C</th>
-                        <th className="text-center p-3 font-semibold">Room D</th>
-                        <th className="text-center p-3 font-semibold">Room E</th>
-                        <th className="text-center p-3 font-semibold">Assigned</th>
+                        <th className="text-center p-3 font-semibold">1st Pick</th>
+                        <th className="text-center p-3 font-semibold">2nd Pick</th>
+                        <th className="text-center p-3 font-semibold">3rd Pick</th>
+                        <th className="text-center p-3 font-semibold">4th Pick</th>
+                        <th className="text-center p-3 font-semibold">5th Pick</th>
+                        <th className="text-center p-3 font-semibold">Pick Order</th>
+                        <th className="text-center p-3 font-semibold">Room Chosen</th>
                         <th className="text-center p-3 font-semibold">Payment</th>
                         <th className="text-center p-3 font-semibold">Savings</th>
                       </tr>
@@ -179,14 +187,23 @@ const Algorithm = () => {
                             {bid.couple}
                             {bid.type === 'single' && <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" />}
                           </td>
-                          <td className="text-center p-3">{bid.bids.A}</td>
-                          <td className="text-center p-3">{bid.bids.B}</td>
-                          <td className="text-center p-3">{bid.bids.C}</td>
-                          <td className="text-center p-3">{bid.bids.D}</td>
-                          <td className="text-center p-3">{bid.bids.E}</td>
+                          <td className="text-center p-3">{bid.bids["1st"]}</td>
+                          <td className="text-center p-3">{bid.bids["2nd"]}</td>
+                          <td className="text-center p-3">{bid.bids["3rd"]}</td>
+                          <td className="text-center p-3">{bid.bids["4th"]}</td>
+                          <td className="text-center p-3">{bid.bids["5th"]}</td>
                           <td className="text-center p-3">
-                            <Badge className="bg-primary text-primary-foreground">
-                              Room {bid.assigned}
+                            {bid.type === 'single' ? (
+                              <span className="text-muted-foreground">—</span>
+                            ) : (
+                              <Badge className="bg-primary text-primary-foreground">
+                                {bid.pickOrder}
+                              </Badge>
+                            )}
+                          </td>
+                          <td className="text-center p-3">
+                            <Badge variant="outline">
+                              {bid.chosenRoom}
                             </Badge>
                           </td>
                           <td className="text-center p-3 font-semibold text-primary">
@@ -209,27 +226,26 @@ const Algorithm = () => {
                 
                 <div className="mt-6 space-y-4">
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <h4 className="font-semibold text-foreground mb-2">VCG Auction Results:</h4>
+                    <h4 className="font-semibold text-foreground mb-2">VCG Pick Order Results:</h4>
                     <ul className="text-sm text-foreground space-y-1">
-                      <li>• Room A has lowest bids (shared with 2 singles) - couples prefer private rooms</li>
-                      <li>• Alex & Jamie win Room A with only $450 bid (lowest among couples)</li>
-                      <li>• Each couple pays the second-highest bid for their assigned room (VCG pricing)</li>
-                      <li>• <strong>Total savings: $500</strong> - couples save money vs. their maximum willingness to pay</li>
-                      <li>• Lowest winning bid is $400 (Room A), so singles pay $200 each</li>
-                      <li>• Singles share Room A (4-person capacity) with Alex & Jamie</li>
-                      <li>• Total collected: $2,700 from couples + $400 from singles = $3,100</li>
-                      <li>• Shortfall of $175 split equally among all 7 participants ($25 each)</li>
-                      <li>• <strong>Final total: Exactly $3,275 to cover Airbnb costs</strong></li>
+                      <li>• Alex & Jamie bid highest for 1st pick ($1,200) and get first choice - select Primary bedroom</li>
+                      <li>• Morgan & Casey get 2nd pick, choose bedroom 1</li>
+                      <li>• Each couple pays the second-highest bid for their pick position (VCG pricing)</li>
+                      <li>• <strong>Total collected: $2,525</strong> from VCG payments + $325 from singles = $2,850</li>
+                      <li>• Shortfall of $425 redistributed equally among all 7 participants ($60.71 each)</li>
+                      <li>• Singles automatically assigned bedroom 5 (twin beds), pay half of lowest couple payment</li>
+                      <li>• <strong>Final redistributed total: Exactly $3,275 to cover Airbnb costs</strong></li>
+                      <li>• Pick order determines room selection: Primary → Bedroom 1 → Bedroom 2 → Bedroom 3 → Bedroom 4</li>
                     </ul>
                   </div>
                   
                   <div className="p-4 bg-accent/50 rounded-lg">
-                    <h4 className="font-semibold text-foreground mb-2">Why This Allocation is Optimal:</h4>
+                    <h4 className="font-semibold text-foreground mb-2">VCG Redistribution Mechanism:</h4>
                     <p className="text-sm text-foreground">
-                      The VCG mechanism correctly identifies that Room A is least desirable due to sharing with 
-                      singles. Alex & Jamie, who bid lowest for private rooms, get paired with the non-bidding 
-                      singles in the 4-person room. Higher-bidding couples secure private rooms, maximizing 
-                      overall satisfaction while maintaining truthful bidding incentives.
+                      The VCG mechanism ensures truthful bidding by making each participant pay their "externality" - 
+                      the cost they impose on others. When total VCG payments fall short of the required $3,275, 
+                      the difference is redistributed equally among all participants, maintaining fairness while 
+                      covering costs. This redistribution preserves the incentive-compatible nature of the auction.
                     </p>
                   </div>
                 </div>
@@ -274,9 +290,9 @@ const Algorithm = () => {
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Submit Your Bids?</h3>
                 <p className="text-muted-foreground mb-6">
-                  The VCG mechanism is designed to make everyone better off. Simply bid what each room 
-                  is truly worth to you - no strategy needed! Don't want to participate in bidding? 
-                  Singles will be automatically assigned the cheapest room and pay half the cost.
+                  The VCG mechanism is designed to make everyone better off. Simply bid what each pick order 
+                  position is truly worth to you - no strategy needed! Don't want to participate in bidding? 
+                  Singles will be automatically assigned bedroom 5 (twin beds) and pay half the lowest couple payment.
                 </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
