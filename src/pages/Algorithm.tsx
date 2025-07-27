@@ -297,41 +297,130 @@ const Algorithm = () => {
                   <span className="font-semibold text-left">What happens if nobody participates but one person?</span>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-6">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <p className="text-muted-foreground">
-                      If only one couple participates in bidding while everyone else opts to be assigned as singles:
+                      If only one couple participates in bidding while everyone else gets default assignments, the non-participants get default bids of $468 for picks 1-4 and $475 for pick 5:
                     </p>
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse">
-                        <thead>
-                          <tr className="border-b border-border">
-                            <th className="text-left p-3 font-semibold">Participant</th>
-                            <th className="text-center p-3 font-semibold">Status</th>
-                            <th className="text-center p-3 font-semibold">Room</th>
-                            <th className="text-center p-3 font-semibold">Payment</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="border-b border-border">
-                            <td className="p-3 font-medium">Alex & Jamie</td>
-                            <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st Pick</Badge></td>
-                            <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
-                            <td className="text-center p-3 font-semibold text-primary">$468.21</td>
-                          </tr>
-                          <tr className="border-b border-border bg-muted/30">
-                            <td className="p-3 font-medium">Everyone else (6 singles) <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                            <td className="text-center p-3"><span className="text-muted-foreground">Non-bidding</span></td>
-                            <td className="text-center p-3"><Badge variant="outline">Bedrooms 1-5</Badge></td>
-                            <td className="text-center p-3 font-semibold text-primary">$467.76 each</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    
+                    {/* Bids Table */}
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-4">Bids Made</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left p-3 font-semibold">Participant</th>
+                              <th className="text-center p-3 font-semibold">1st Pick</th>
+                              <th className="text-center p-3 font-semibold">2nd Pick</th>
+                              <th className="text-center p-3 font-semibold">3rd Pick</th>
+                              <th className="text-center p-3 font-semibold">4th Pick</th>
+                              <th className="text-center p-3 font-semibold">5th Pick</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Alex & Jamie</td>
+                              <td className="text-center p-3 font-semibold">$1,200</td>
+                              <td className="text-center p-3">$950</td>
+                              <td className="text-center p-3">$700</td>
+                              <td className="text-center p-3">$500</td>
+                              <td className="text-center p-3">$400</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Morgan & Casey <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$475</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Taylor & River <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$468</td>
+                              <td className="text-center p-3 text-muted-foreground">$475</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div className="p-4 bg-accent/50 rounded-lg">
-                      <p className="text-sm text-foreground">
-                        With no competition, the single bidding couple pays $0 in VCG payment but must still contribute their 
-                        share toward the $3,275 total ($468.21). The remaining 6 participants split the cost almost equally.
-                      </p>
+
+                    {/* Results Table */}
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left p-3 font-semibold">Participant</th>
+                              <th className="text-center p-3 font-semibold">Assigned Pick</th>
+                              <th className="text-center p-3 font-semibold">Room Chosen</th>
+                              <th className="text-center p-3 font-semibold">VCG Payment</th>
+                              <th className="text-center p-3 font-semibold">Redistribution</th>
+                              <th className="text-center p-3 font-semibold">Final Payment</th>
+                              <th className="text-center p-3 font-semibold">Bid vs Final</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Alex & Jamie</td>
+                              <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
+                              <td className="text-center p-3 font-semibold">$468</td>
+                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
+                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
+                              <td className="text-center p-3 font-semibold text-green-600">+$732.00</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Morgan & Casey <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3"><Badge variant="outline">2nd</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
+                              <td className="text-center p-3 font-semibold">$468</td>
+                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
+                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
+                              <td className="text-center p-3 font-semibold text-green-600">+$0.00</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Taylor & River <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3"><Badge variant="outline">3rd</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 2</Badge></td>
+                              <td className="text-center p-3 font-semibold">$468</td>
+                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
+                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
+                              <td className="text-center p-3 font-semibold text-green-600">+$0.00</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 5</Badge></td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
+                              <td className="text-center p-3 font-semibold text-primary">$234.00</td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                      <h4 className="font-semibold text-foreground mb-2">Results Summary:</h4>
+                      <ul className="text-sm text-foreground space-y-1">
+                        <li>• Alex & Jamie get 1st pick and pay the 2nd highest bid ($468) instead of their bid ($1,200)</li>
+                        <li>• Non-participants get assigned picks based on default bids and pay those amounts</li>
+                        <li>• No redistribution needed as total payments exactly cover costs</li>
+                        <li>• Total collected: $1,872 (3 couples × $468 + 1 single × $234) = exactly $1,872 portion of $3,275</li>
+                      </ul>
                     </div>
                   </div>
                 </AccordionContent>
@@ -342,51 +431,131 @@ const Algorithm = () => {
                   <span className="font-semibold text-left">What happens if there is a tie between two people?</span>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-6">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <p className="text-muted-foreground">
                       If two couples bid the same amount for the same pick position, a random tiebreaker determines the winner:
                     </p>
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse">
-                        <thead>
-                          <tr className="border-b border-border">
-                            <th className="text-left p-3 font-semibold">Participant</th>
-                            <th className="text-center p-3 font-semibold">1st Pick Bid</th>
-                            <th className="text-center p-3 font-semibold">Result</th>
-                            <th className="text-center p-3 font-semibold">VCG Payment</th>
-                            <th className="text-center p-3 font-semibold">Room</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="border-b border-border">
-                            <td className="p-3 font-medium">Alex & Jamie</td>
-                            <td className="text-center p-3 font-semibold">$1,200</td>
-                            <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st Pick (Winner)</Badge></td>
-                            <td className="text-center p-3">$1,200</td>
-                            <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
-                          </tr>
-                          <tr className="border-b border-border">
-                            <td className="p-3 font-medium">Morgan & Casey</td>
-                            <td className="text-center p-3 font-semibold">$1,200</td>
-                            <td className="text-center p-3"><Badge variant="outline">2nd Pick (Tiebreaker)</Badge></td>
-                            <td className="text-center p-3">$950</td>
-                            <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
-                          </tr>
-                          <tr className="border-b border-border bg-muted/30">
-                            <td className="p-3 font-medium">Other participants</td>
-                            <td className="text-center p-3"><span className="text-muted-foreground">Lower bids</span></td>
-                            <td className="text-center p-3"><span className="text-muted-foreground">3rd-5th picks</span></td>
-                            <td className="text-center p-3"><span className="text-muted-foreground">Per VCG</span></td>
-                            <td className="text-center p-3"><span className="text-muted-foreground">Remaining rooms</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    
+                    {/* Bids Table */}
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-4">Bids Made</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left p-3 font-semibold">Participant</th>
+                              <th className="text-center p-3 font-semibold">1st Pick</th>
+                              <th className="text-center p-3 font-semibold">2nd Pick</th>
+                              <th className="text-center p-3 font-semibold">3rd Pick</th>
+                              <th className="text-center p-3 font-semibold">4th Pick</th>
+                              <th className="text-center p-3 font-semibold">5th Pick</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Alex & Jamie</td>
+                              <td className="text-center p-3 font-semibold">$1,200</td>
+                              <td className="text-center p-3">$950</td>
+                              <td className="text-center p-3">$700</td>
+                              <td className="text-center p-3">$500</td>
+                              <td className="text-center p-3">$400</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Morgan & Casey</td>
+                              <td className="text-center p-3 font-semibold">$1,200</td>
+                              <td className="text-center p-3">$900</td>
+                              <td className="text-center p-3">$650</td>
+                              <td className="text-center p-3">$450</td>
+                              <td className="text-center p-3">$350</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Taylor & River</td>
+                              <td className="text-center p-3">$1,000</td>
+                              <td className="text-center p-3 font-semibold">$800</td>
+                              <td className="text-center p-3">$600</td>
+                              <td className="text-center p-3">$400</td>
+                              <td className="text-center p-3">$300</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                              <td className="text-center p-3 text-muted-foreground">—</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div className="p-4 bg-accent/50 rounded-lg">
-                      <p className="text-sm text-foreground">
-                        In case of ties, random selection determines winners, but both tied participants pay the same 
-                        tied amount (not discounted). This maintains the VCG property while resolving the allocation fairly.
-                      </p>
+
+                    {/* Results Table */}
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left p-3 font-semibold">Participant</th>
+                              <th className="text-center p-3 font-semibold">Assigned Pick</th>
+                              <th className="text-center p-3 font-semibold">Room Chosen</th>
+                              <th className="text-center p-3 font-semibold">VCG Payment</th>
+                              <th className="text-center p-3 font-semibold">Redistribution</th>
+                              <th className="text-center p-3 font-semibold">Final Payment</th>
+                              <th className="text-center p-3 font-semibold">Bid vs Final</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Alex & Jamie</td>
+                              <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
+                              <td className="text-center p-3 font-semibold">$1,200</td>
+                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
+                              <td className="text-center p-3 font-semibold text-primary">$1,333.33</td>
+                              <td className="text-center p-3 font-semibold text-red-600">-$133.33</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Morgan & Casey</td>
+                              <td className="text-center p-3"><Badge variant="outline">2nd</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
+                              <td className="text-center p-3 font-semibold">$1,000</td>
+                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
+                              <td className="text-center p-3 font-semibold text-primary">$1,133.33</td>
+                              <td className="text-center p-3 font-semibold text-green-600">+$66.67</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                              <td className="p-3 font-medium">Taylor & River</td>
+                              <td className="text-center p-3"><Badge variant="outline">3rd</Badge></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 2</Badge></td>
+                              <td className="text-center p-3 font-semibold">$800</td>
+                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
+                              <td className="text-center p-3 font-semibold text-primary">$933.33</td>
+                              <td className="text-center p-3 font-semibold text-green-600">+$66.67</td>
+                            </tr>
+                            <tr className="border-b border-border bg-muted/30">
+                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                              <td className="text-center p-3"><Badge variant="outline">Bedroom 5</Badge></td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
+                              <td className="text-center p-3 font-semibold text-primary">$533.33</td>
+                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                      <h4 className="font-semibold text-foreground mb-2">Tie Resolution Summary:</h4>
+                      <ul className="text-sm text-foreground space-y-1">
+                        <li>• Alex & Jamie and Morgan & Casey both bid $1,200 for 1st pick</li>
+                        <li>• Random tiebreaker assigns Alex & Jamie as 1st pick winner</li>
+                        <li>• Both tied participants pay their full tied bid amount ($1,200) per VCG rules</li>
+                        <li>• Morgan & Casey get 2nd pick and pay Taylor & River's 2nd pick bid ($1,000)</li>
+                        <li>• Total VCG payments: $3,000, requiring $533.33 redistribution to reach $3,275</li>
+                      </ul>
                     </div>
                   </div>
                 </AccordionContent>
