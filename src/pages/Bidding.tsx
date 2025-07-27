@@ -44,9 +44,13 @@ const Bidding = () => {
     const allBids = pickOrders.map(pick => parseFloat(formData[pick.id as keyof typeof formData] as string) || 0);
     const regularTotal = allBids.reduce((acc, bid) => acc + bid, 0);
     
+    // Double the 5th pick (lowest bid) for weighted total calculation
+    const fifthPickValue = parseFloat(formData.fifthPick) || 0;
+    const weightedCalculation = regularTotal + fifthPickValue; // Add 5th pick again to double it
+    
     setTotal(regularTotal);
-    setWeightedTotal(regularTotal); // No doubling for pick order system
-    setIsValid(regularTotal === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
+    setWeightedTotal(weightedCalculation);
+    setIsValid(weightedCalculation === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
   }, [formData]);
 
   const sanitizeInput = (input: string, maxLength: number = 500): string => {
@@ -392,15 +396,21 @@ const Bidding = () => {
                 <div className="bg-accent/20 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-medium">Total Pick Order Bids:</span>
-                    <Badge variant={getTotalBadgeVariant()}>
+                    <Badge variant="secondary">
                       ${total.toFixed(2)}
-                      {total === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Weighted Total (5th pick doubled):</span>
+                    <Badge variant={getTotalBadgeVariant()}>
+                      ${weightedTotal.toFixed(2)}
+                      {weightedTotal === 3275 && <CheckCircle className="ml-1 h-3 w-3" />}
                     </Badge>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Target: $3,275 {total !== 3275 && (
+                    Target: $3,275 {weightedTotal !== 3275 && (
                       <span className="text-destructive">
-                        ({total > 3275 ? '-' : '+'}${Math.abs(total - 3275).toFixed(2)})
+                        ({weightedTotal > 3275 ? '-' : '+'}${Math.abs(weightedTotal - 3275).toFixed(2)})
                       </span>
                     )}
                   </div>
