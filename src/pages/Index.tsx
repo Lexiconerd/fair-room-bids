@@ -20,9 +20,9 @@ const Index = () => {
     {
       letter: "Primary",
       name: "Primary Bedroom",
-      image: [roomAImage, roomA2Image, roomA3Image],
-      features: ["Ocean View", "King Bed", "En-suite Bathroom", "Private Balcony"],
-      description: "Wake up to breathtaking ocean views in this luxury master bedroom with private balcony and spa-like bathroom.",
+      image: roomAImage,
+      features: ["King Bed", "En-suite Bathroom", "Outdoor Deck"],
+      description: "Wake up to sweeping mountain vistas in this luxurious main-level suite with king bed and access to a private deck.",
       highlight: "First Pick Choice"
     },
     {
@@ -56,7 +56,7 @@ const Index = () => {
     {
       letter: "5",
       name: "Bedroom 5 (Singles)",
-      image: roomEImage,
+      image: [roomA2Image,roomA3Image],
       features: ["Twin Beds", "Shared Space", "Garden View", "Natural Light"],
       description: "Comfortable twin-bed accommodation for singles, featuring garden views and natural light."
     }
