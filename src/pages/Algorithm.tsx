@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, DollarSign, Users, Trophy, CheckCircle, UserX } from "lucide-react";
 
 const Algorithm = () => {
@@ -153,104 +154,244 @@ const Algorithm = () => {
             </div>
           </section>
 
-          {/* Example scenario */}
+          {/* Example scenarios */}
           <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Realistic Example Scenario</h2>
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle>Sample Pick Order Allocation: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
-                <CardDescription>
-                  See how the VCG mechanism determines pick order, with singles automatically assigned bedroom 5 (twin beds)
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-left p-3 font-semibold">Participant</th>
-                        <th className="text-center p-3 font-semibold">1st Pick</th>
-                        <th className="text-center p-3 font-semibold">2nd Pick</th>
-                        <th className="text-center p-3 font-semibold">3rd Pick</th>
-                        <th className="text-center p-3 font-semibold">4th Pick</th>
-                        <th className="text-center p-3 font-semibold">5th Pick</th>
-                        <th className="text-center p-3 font-semibold">Pick Order</th>
-                        <th className="text-center p-3 font-semibold">Room Chosen</th>
-                        <th className="text-center p-3 font-semibold">Payment</th>
-                        <th className="text-center p-3 font-semibold">Savings</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {exampleBids.map((bid, index) => (
-                        <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
-                          <td className="p-3 font-medium">
-                            {bid.couple}
-                            {bid.type === 'single' && <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" />}
-                          </td>
-                          <td className="text-center p-3">{bid.bids["1st"]}</td>
-                          <td className="text-center p-3">{bid.bids["2nd"]}</td>
-                          <td className="text-center p-3">{bid.bids["3rd"]}</td>
-                          <td className="text-center p-3">{bid.bids["4th"]}</td>
-                          <td className="text-center p-3">{bid.bids["5th"]}</td>
-                          <td className="text-center p-3">
-                            {bid.type === 'single' ? (
-                              <span className="text-muted-foreground">—</span>
-                            ) : (
-                              <Badge className="bg-primary text-primary-foreground">
-                                {bid.pickOrder}
-                              </Badge>
-                            )}
-                          </td>
-                          <td className="text-center p-3">
-                            <Badge variant="outline">
-                              {bid.chosenRoom}
-                            </Badge>
-                          </td>
-                          <td className="text-center p-3 font-semibold text-primary">
-                            ${bid.payment}
-                          </td>
-                          <td className="text-center p-3">
-                            {bid.type === 'single' ? (
-                              <span className="text-muted-foreground">—</span>
-                            ) : (
-                              <span className="font-semibold text-green-600">
-                                ${bid.savings}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                
-                <div className="mt-6 space-y-4">
+            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Example Scenarios</h2>
+            
+            {/* Main scenario */}
+            <div className="mb-8">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle>Realistic Example: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
+                  <CardDescription>
+                    See how the VCG mechanism determines pick order, with singles automatically assigned bedroom 5 (twin beds)
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Bids Table */}
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-4">Submitted Bids by Pick Order Preference</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left p-3 font-semibold">Participant</th>
+                            <th className="text-center p-3 font-semibold">1st Pick</th>
+                            <th className="text-center p-3 font-semibold">2nd Pick</th>
+                            <th className="text-center p-3 font-semibold">3rd Pick</th>
+                            <th className="text-center p-3 font-semibold">4th Pick</th>
+                            <th className="text-center p-3 font-semibold">5th Pick</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {exampleBids.map((bid, index) => (
+                            <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
+                              <td className="p-3 font-medium">
+                                {bid.couple}
+                                {bid.type === 'single' && <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" />}
+                              </td>
+                              <td className="text-center p-3">{bid.bids["1st"]}</td>
+                              <td className="text-center p-3">{bid.bids["2nd"]}</td>
+                              <td className="text-center p-3">{bid.bids["3rd"]}</td>
+                              <td className="text-center p-3">{bid.bids["4th"]}</td>
+                              <td className="text-center p-3">{bid.bids["5th"]}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Results Table */}
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left p-3 font-semibold">Participant</th>
+                            <th className="text-center p-3 font-semibold">Assigned Pick</th>
+                            <th className="text-center p-3 font-semibold">Room Chosen</th>
+                            <th className="text-center p-3 font-semibold">VCG Payment</th>
+                            <th className="text-center p-3 font-semibold">Redistribution</th>
+                            <th className="text-center p-3 font-semibold">Final Payment</th>
+                            <th className="text-center p-3 font-semibold">Bid vs Final</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {exampleBids.map((bid, index) => {
+                            const redistribution = bid.type === 'single' ? -60.71 : -60.71;
+                            const finalPayment = bid.type === 'single' ? 162.50 : bid.payment + redistribution;
+                            const bidAmount = bid.type === 'single' ? 0 : (typeof bid.bidForPick === 'number' ? bid.bidForPick : 0);
+                            const savings = bid.type === 'single' ? 0 : bidAmount - finalPayment;
+                            
+                            return (
+                              <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
+                                <td className="p-3 font-medium">
+                                  {bid.couple}
+                                  {bid.type === 'single' && <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" />}
+                                </td>
+                                <td className="text-center p-3">
+                                  {bid.type === 'single' ? (
+                                    <span className="text-muted-foreground">—</span>
+                                  ) : (
+                                    <Badge className="bg-primary text-primary-foreground">
+                                      {bid.pickOrder}
+                                    </Badge>
+                                  )}
+                                </td>
+                                <td className="text-center p-3">
+                                  <Badge variant="outline">
+                                    {bid.chosenRoom}
+                                  </Badge>
+                                </td>
+                                <td className="text-center p-3 font-semibold">
+                                  {bid.type === 'single' ? (
+                                    <span className="text-muted-foreground">—</span>
+                                  ) : (
+                                    `$${bid.payment}`
+                                  )}
+                                </td>
+                                <td className="text-center p-3 text-green-600 font-medium">
+                                  -$60.71
+                                </td>
+                                <td className="text-center p-3 font-semibold text-primary">
+                                  ${finalPayment.toFixed(2)}
+                                </td>
+                                <td className="text-center p-3">
+                                  {bid.type === 'single' ? (
+                                    <span className="text-muted-foreground">—</span>
+                                  ) : (
+                                    <span className="font-semibold text-green-600">
+                                      +${savings.toFixed(2)}
+                                    </span>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <h4 className="font-semibold text-foreground mb-2">VCG Pick Order Results:</h4>
+                    <h4 className="font-semibold text-foreground mb-2">VCG Results Summary:</h4>
                     <ul className="text-sm text-foreground space-y-1">
                       <li>• Alex & Jamie bid highest for 1st pick ($1,200) and get first choice - select Primary bedroom</li>
-                      <li>• Morgan & Casey get 2nd pick, choose bedroom 1</li>
-                      <li>• Each couple pays the second-highest bid for their pick position (VCG pricing)</li>
-                      <li>• <strong>Total collected: $2,525</strong> from VCG payments + $325 from singles = $2,850</li>
-                      <li>• Shortfall of $425 redistributed equally among all 7 participants ($60.71 each)</li>
-                      <li>• Singles automatically assigned bedroom 5 (twin beds), pay half of lowest couple payment</li>
-                      <li>• <strong>Final redistributed total: Exactly $3,275 to cover Airbnb costs</strong></li>
+                      <li>• Each couple pays the second-highest bid for their assigned pick position (VCG pricing)</li>
+                      <li>• <strong>Total VCG payments: $2,525</strong> + Singles payment: $325 = $2,850</li>
+                      <li>• Shortfall of $425 redistributed equally among all 7 participants (-$60.71 each)</li>
+                      <li>• <strong>Final total collected: Exactly $3,275</strong> to cover Airbnb costs</li>
                       <li>• Pick order determines room selection: Primary → Bedroom 1 → Bedroom 2 → Bedroom 3 → Bedroom 4</li>
                     </ul>
                   </div>
-                  
-                  <div className="p-4 bg-accent/50 rounded-lg">
-                    <h4 className="font-semibold text-foreground mb-2">VCG Redistribution Mechanism:</h4>
-                    <p className="text-sm text-foreground">
-                      The VCG mechanism ensures truthful bidding by making each participant pay their "externality" - 
-                      the cost they impose on others. When total VCG payments fall short of the required $3,275, 
-                      the difference is redistributed equally among all participants, maintaining fairness while 
-                      covering costs. This redistribution preserves the incentive-compatible nature of the auction.
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Additional scenarios in accordion */}
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem value="single-bidder" className="border border-border rounded-lg">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                  <span className="font-semibold text-left">What happens if nobody participates but one person?</span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4">
+                    <p className="text-muted-foreground">
+                      If only one couple participates in bidding while everyone else opts to be assigned as singles:
                     </p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left p-3 font-semibold">Participant</th>
+                            <th className="text-center p-3 font-semibold">Status</th>
+                            <th className="text-center p-3 font-semibold">Room</th>
+                            <th className="text-center p-3 font-semibold">Payment</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="border-b border-border">
+                            <td className="p-3 font-medium">Alex & Jamie</td>
+                            <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st Pick</Badge></td>
+                            <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
+                            <td className="text-center p-3 font-semibold text-primary">$468.21</td>
+                          </tr>
+                          <tr className="border-b border-border bg-muted/30">
+                            <td className="p-3 font-medium">Everyone else (6 singles) <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
+                            <td className="text-center p-3"><span className="text-muted-foreground">Non-bidding</span></td>
+                            <td className="text-center p-3"><Badge variant="outline">Bedrooms 1-5</Badge></td>
+                            <td className="text-center p-3 font-semibold text-primary">$467.76 each</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="p-4 bg-accent/50 rounded-lg">
+                      <p className="text-sm text-foreground">
+                        With no competition, the single bidding couple pays $0 in VCG payment but must still contribute their 
+                        share toward the $3,275 total ($468.21). The remaining 6 participants split the cost almost equally.
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="tie-scenario" className="border border-border rounded-lg">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                  <span className="font-semibold text-left">What happens if there is a tie between two people?</span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4">
+                    <p className="text-muted-foreground">
+                      If two couples bid the same amount for the same pick position, a random tiebreaker determines the winner:
+                    </p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left p-3 font-semibold">Participant</th>
+                            <th className="text-center p-3 font-semibold">1st Pick Bid</th>
+                            <th className="text-center p-3 font-semibold">Result</th>
+                            <th className="text-center p-3 font-semibold">VCG Payment</th>
+                            <th className="text-center p-3 font-semibold">Room</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="border-b border-border">
+                            <td className="p-3 font-medium">Alex & Jamie</td>
+                            <td className="text-center p-3 font-semibold">$1,200</td>
+                            <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st Pick (Winner)</Badge></td>
+                            <td className="text-center p-3">$1,200</td>
+                            <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
+                          </tr>
+                          <tr className="border-b border-border">
+                            <td className="p-3 font-medium">Morgan & Casey</td>
+                            <td className="text-center p-3 font-semibold">$1,200</td>
+                            <td className="text-center p-3"><Badge variant="outline">2nd Pick (Tiebreaker)</Badge></td>
+                            <td className="text-center p-3">$950</td>
+                            <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
+                          </tr>
+                          <tr className="border-b border-border bg-muted/30">
+                            <td className="p-3 font-medium">Other participants</td>
+                            <td className="text-center p-3"><span className="text-muted-foreground">Lower bids</span></td>
+                            <td className="text-center p-3"><span className="text-muted-foreground">3rd-5th picks</span></td>
+                            <td className="text-center p-3"><span className="text-muted-foreground">Per VCG</span></td>
+                            <td className="text-center p-3"><span className="text-muted-foreground">Remaining rooms</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="p-4 bg-accent/50 rounded-lg">
+                      <p className="text-sm text-foreground">
+                        In case of ties, random selection determines winners, but both tied participants pay the same 
+                        tied amount (not discounted). This maintains the VCG property while resolving the allocation fairly.
+                      </p>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </section>
 
           {/* VCG Properties */}

@@ -119,12 +119,20 @@ const Bidding = () => {
     }
 
     // Enhanced pick order bid validation
-    pickOrders.forEach(pick => {
-      const value = parseFloat(formData[pick.id as keyof typeof formData] as string) || 0;
+    const pickValues = pickOrders.map(pick => parseFloat(formData[pick.id as keyof typeof formData] as string) || 0);
+    
+    pickOrders.forEach((pick, index) => {
+      const value = pickValues[index];
       if (value < 0) {
         newErrors[pick.id] = "Bid cannot be negative";
       } else if (value > 10000) {
         newErrors[pick.id] = "Bid cannot exceed $10,000";
+      }
+      
+      // Validate that subsequent picks are not higher than previous picks
+      if (index > 0 && value > pickValues[index - 1]) {
+        const previousPickLabel = pickOrders[index - 1].label.split(' ')[0];
+        newErrors[pick.id] = `Cannot be higher than ${previousPickLabel} bid ($${pickValues[index - 1]})`;
       }
     });
 
