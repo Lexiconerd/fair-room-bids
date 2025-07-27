@@ -88,12 +88,16 @@ const Index = () => {
       <section className="container mx-auto px-4 py-16">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-5xl font-bold mb-6 text-foreground">
-            Welcome to Villa Serenity
+            Montana Here We Come
           </h1>
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Experience our fair and transparent pick order bidding system. Each couple allocates $3,275 
-            across five pick order positions to secure their preferred room selection order. Our VCG algorithm ensures everyone 
-            gets the best possible outcome.
+            Erik’s Ranch is a stunning, 100-acre nonprofit guest lodge near Yellowstone,
+            offering upscale accommodations and unforgettable tours led by young adults with autism.
+            With breathtaking views, outdoor adventures, and meaningful impact, it's the perfect
+            place to stay while we celebrate Kris and Emily's wedding.
+
+            But before all of that, Jay&#8212;Kathleen washes her hands of it&#8212;would like
+            you to price your willingness (or lack thereof) to pay for a better room.
           </p>
           <div className="mb-6">
             <a 
