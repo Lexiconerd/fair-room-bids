@@ -11,82 +11,82 @@ const Algorithm = () => {
     {
       icon: DollarSign,
       title: "Bid on Pick Order",
-      description: "Each couple bids $3,275 on their preferred picking order (1st, 2nd, 3rd, 4th, 5th pick). Higher bids get earlier picks."
+      description: "Each couple bids their preferred picking order (1st, 2nd, 3rd, 4th, 5th pick). The total, with the 5th pick doubled, must equal $3,275."
     },
     {
       icon: Users,
       title: "Submit Bids",
-      description: "Couples submit their pick order bids simultaneously. Singles don't bid and are assigned bedroom 5 (with twin beds)."
+      description: "Couples submit their pick order bids anonymously. Singles don't bid and are assigned bedroom 6 (with twin beds)."
     },
     {
       icon: Trophy,
       title: "Pick Assignment",
-      description: "VCG algorithm determines pick order. Winners choose from: Primary bedroom, then bedrooms 1-4 based on their pick position."
+      description: "VCG algorithm determines pick order. Each pick gets assigned to the highest bidder among the remaining bidders."
     },
     {
       icon: CheckCircle,
       title: "VCG Pricing & Redistribution",
-      description: "Pay the second-highest bid for your pick position. Excess funds are redistributed equally among all participants per VCG mechanism."
+      description: "Pay the second-highest bid for your pick position. Singles pay half of the lowest pick price. Excess funds (or deficit) are redistributed equally among all participants per VCG mechanism."
     }
   ];
 
   const exampleBids = [
     {
       couple: "Alex & Jamie",
-      bids: { "1st": 1200, "2nd": 900, "3rd": 650, "4th": 350, "5th": 175 },
+      bids: { "1st": 1125, "2nd": 700, "3rd": 600, "4th": 500, "5th": 175 },
       pickOrder: "1st",
       chosenRoom: "Primary",
-      payment: 1100,
+      payment: 1000,
       type: "couple",
-      bidForPick: 1200,
-      savings: 100
+      bidForPick: 1125,
+      savings: 125
     },
     {
       couple: "Morgan & Casey", 
-      bids: { "1st": 1100, "2nd": 950, "3rd": 700, "4th": 375, "5th": 150 },
+      bids: { "1st": 1000 "2nd": 750 "3rd": 500, "4th": 425, "5th": 300 },
       pickOrder: "2nd",
-      chosenRoom: "Bedroom 1",
-      payment: 900,
+      chosenRoom: "Bedroom 2",
+      payment: 700,
       type: "couple",
-      bidForPick: 950,
+      bidForPick: 750,
       savings: 50
     },
     {
       couple: "Taylor & Jordan",
-      bids: { "1st": 1000, "2nd": 900, "3rd": 800, "4th": 400, "5th": 175 },
+      bids: { "1st": 850, "2nd": 700, "3rd": 625, "4th": 400, "5th": 350 },
       pickOrder: "3rd",
-      chosenRoom: "Bedroom 2",
-      payment: 700,
+      chosenRoom: "Bedroom 3",
+      payment: 600,
       type: "couple",
-      bidForPick: 800,
-      savings: 100
+      bidForPick: 625,
+      savings: 25
     },
     {
       couple: "Sam & Riley",
-      bids: { "1st": 950, "2nd": 750, "3rd": 700, "4th": 550, "5th": 325 },
-      pickOrder: "4th",
-      chosenRoom: "Bedroom 3",
-      payment: 400,
+      bids: { "1st": 625, "2nd": 550, "3rd": 550, "4th": 550, "5th": 500 },
+      pickOrder: "5th",
+      chosenRoom: "Bedroom 4",
+      payment: 500,
       type: "couple",
-      bidForPick: 550,
-      savings: 150
+      bidForPick: 500,
+      savings: 0
     },
     {
       couple: "Robin & Sage",
-      bids: { "1st": 900, "2nd": 700, "3rd": 600, "4th": 400, "5th": 675 },
-      pickOrder: "5th",
-      chosenRoom: "Bedroom 4",
-      payment: 325,
+      bids: { "1st": 570, "2nd": 570, "3rd": 570, "4th": 565, "5th": 500 },
+      pickOrder: "4th",
+      chosenRoom: "Bedroom 5",
+      payment: 550,
       type: "couple",
-      bidForPick: 675,
-      savings: 350
+      bidForPick: 565,
+      savings: 15
     },
     {
       couple: "Chris (Single)",
       bids: { "1st": "—", "2nd": "—", "3rd": "—", "4th": "—", "5th": "—" },
       pickOrder: "—",
-      chosenRoom: "Bedroom 5",
-      payment: 162.50,
+      chosenRoom: "Bedroom 6",
+      payment: 250,
       type: "single",
       bidForPick: "—",
       savings: "—"
@@ -95,8 +95,8 @@ const Algorithm = () => {
       couple: "Avery (Single)",
       bids: { "1st": "—", "2nd": "—", "3rd": "—", "4th": "—", "5th": "—" },
       pickOrder: "—",
-      chosenRoom: "Bedroom 5",
-      payment: 162.50,
+      chosenRoom: "Bedroom 6",
+      payment: 250,
       type: "single",
       bidForPick: "—",
       savings: "—"
