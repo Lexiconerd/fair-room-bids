@@ -30,7 +30,7 @@ const Index = () => {
       letter: "2", 
       name: "Bedroom 2",
       image: [roomBImage, roomB2Image],
-      features: ["Queen Bed", "Window", "Spacious"],
+      features: ["Queen Bed", "Window", "Spacious", "Upholstered Chair"],
       description: "*Slaps bedroom* Look at the space on that thing."
     },
     {
@@ -38,27 +38,27 @@ const Index = () => {
       name: "Bedroom 3", 
       image: roomCImage,
       features: ["Fake Plant", "Double Bed", "Rocking Chair", "Sink"],
-      description: "Bit of a tight squeeze, but at least you get to wash your face at night."
+      description: "A tight squeeze, and unclear if it has a window, but at least you get to wash your face at night."
     },
     {
       letter: "4",
       name: "Bedroom 4",
       image: roomDImage, 
-      features: ["Queen Bed", "Small"],
-      description: "Pretty bed at least."
+      features: ["Queen Bed", "Small", "Two Lamps"],
+      description: "You can tell by the fact they've lit up every lamp in this room that it probably has no windows."
     },
     {
       letter: "5",
       name: "Bedroom 5",
       image: roomEImage,
-      features: ["Rocking Chair", "En-Suite Bathroom", "King Bed"],
-      description: "Proof that the bed numbering is not based on quality. This is why you're betting on bid order."
+      features: ["Rocking Chair", "En-Suite Bathroom", "King Bed", "Spacious", "Wow"],
+      description: "Proof that the bed numbering is not based on quality. This is why you're bidding on pick order."
     },
     {
       letter: "6",
       name: "Bedroom 6 (Singles)",
       image: [roomA2Image,roomA3Image],
-      features: ["Twin Beds", "Shared Space", "Garden View", "Natural Light"],
+      features: ["Twin Beds", "Singles", "Beyonce"],
       description: "All the single ladies (now put your hands up)."
     }
   ];
@@ -175,8 +175,9 @@ const Index = () => {
             >
               Primary bedroom
             </a> (best by far), bedrooms 2-5 (couple rooms), and bedroom 6 (twins for singles).
-            The downstairs bedrooms are all connected, and two are windowless.
-            Browse and plan your pick order strategy.
+            The downstairs bedrooms are all connected, and two are windowless. The pictures may 
+            not be accurate, which does not matter, because you are bidding on order, not the room
+            itself.
           </p>
         </div>
         
