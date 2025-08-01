@@ -28,38 +28,38 @@ const Index = () => {
     },
     {
       letter: "1", 
-      name: "Bedroom 1",
+      name: "Bedroom 2",
       image: [roomBImage, roomB2Image],
-      features: ["Exposed Brick", "Queen Bed", "Reading Nook", "Ambient Lighting"],
-      description: "Industrial charm meets comfort in this unique loft space with exposed brick walls and cozy atmosphere."
+      features: ["Queen Bed", "Window", "Spacious"],
+      description: "*Slaps bedroom* Look at the space on that thing."
     },
     {
       letter: "2",
-      name: "Bedroom 2", 
+      name: "Bedroom 3", 
       image: roomCImage,
-      features: ["Walk-in Closet", "Marble Bathroom", "Chandelier", "Sitting Area"],
-      description: "Indulge in luxury with this elegant suite featuring premium finishes and sophisticated decor."
+      features: ["Fake Plant", "Double Bed", "Rocking Chair", "Sink"],
+      description: "Bit of a tight squeeze, but at least you get to wash your face at night."
     },
     {
       letter: "3",
-      name: "Bedroom 3",
+      name: "Bedroom 4",
       image: roomDImage, 
-      features: ["High Ceilings", "Floor-to-ceiling Windows", "Minimalist Design", "City View"],
-      description: "Contemporary design meets urban sophistication in this sleek industrial-style bedroom."
+      features: ["Queen Bed", "Small"],
+      description: "Pretty bed at least."
     },
     {
       letter: "4",
-      name: "Bedroom 4",
+      name: "Bedroom 5",
       image: roomEImage,
-      features: ["Garden Access", "French Doors", "Natural Materials", "Morning Light"],
-      description: "Connect with nature in this serene room featuring direct garden access and natural botanical elements."
+      features: ["Rocking Chair", "En-Suite Bathroom", "King Bed"],
+      description: "Proof that the bed numbering is not based on quality. This is why you're betting on bid order."
     },
     {
-      letter: "5",
+      letter: "6",
       name: "Bedroom 5 (Singles)",
       image: [roomA2Image,roomA3Image],
       features: ["Twin Beds", "Shared Space", "Garden View", "Natural Light"],
-      description: "Comfortable twin-bed accommodation for singles, featuring garden views and natural light."
+      description: "All the single ladies (now put your hands up)."
     }
   ];
 
@@ -172,7 +172,7 @@ const Index = () => {
               className="text-primary hover:text-primary/80 underline"
             >
               Primary bedroom
-            </a> (best by far), bedrooms 1-4 (couple rooms), and bedroom 5 (twins for singles).
+            </a> (best by far), bedrooms 2-5 (couple rooms), and bedroom 6 (twins for singles).
             The downstairs bedrooms are all connected, and two are windowless.
             Browse and plan your pick order strategy.
           </p>
@@ -189,9 +189,9 @@ const Index = () => {
       <section className="container mx-auto px-4 py-16">
         <Card className="max-w-2xl mx-auto text-center bg-gradient-to-r from-primary/5 to-primary-glow/5 border-primary/20">
           <CardContent className="p-12">
-            <h3 className="text-3xl font-bold mb-4 text-foreground">Ready to Begin?</h3>
+            <h3 className="text-3xl font-bold mb-4 text-foreground">You've Reached the End</h3>
             <p className="text-lg text-muted-foreground mb-8">
-              Learn about our fair pick order algorithm or jump straight to submitting your pick preferences.
+              Learn more about this capitalism bit or just slap some money down.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/algorithm">
