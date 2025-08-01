@@ -21,15 +21,16 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Hidden Netlify form for bot detection -->
-    <form name="room-bidding" netlify netlify-honeypot="bot-field" hidden>
+
+    <!-- Replace the hidden form in index.html with this: -->
+    <form name="pick-order-bidding" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="names" />
       <input type="email" name="email" />
-      <input type="number" name="roomA" />
-      <input type="number" name="roomB" />
-      <input type="number" name="roomC" />
-      <input type="number" name="roomD" />
-      <input type="number" name="roomE" />
+      <input type="text" name="firstPick" />
+      <input type="text" name="secondPick" />
+      <input type="text" name="thirdPick" />
+      <input type="text" name="fourthPick" />
+      <input type="text" name="fifthPick" />
       <textarea name="comments"></textarea>
       <input type="text" name="bot-field" />
     </form>
