@@ -65,19 +65,19 @@ const Index = () => {
 
   const features = [
     {
-      icon: Award,
+      icon: DollarSign,
       title: "I Love Capitalism",
       description: "Let the pricing algorithm ensure that the value extractive nature of society work for you."
     },
     {
-      icon: DollarSign, 
+      icon: Award, 
       title: "First-Come, First-Serve Sucks",
       description: "I really dislike it when people get the best rooms just because they showed up first."
     },
     {
       icon: Users,
-      title: "Single People Sad",
-      description: "The system recognizes the universal truth that single people get screwed in group stay situations."
+      title: "Single People Happy",
+      description: "For the first time in history, single people pay less for worse accomodations."
     }
   ];
 
