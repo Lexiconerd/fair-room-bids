@@ -91,7 +91,7 @@ const Index = () => {
           <img 
             src={heroImage} 
             alt="Erik's Ranch - Montana guest lodge near Yellowstone" 
-            className="w-full h-64 md:h-80 lg:h-96 object-cover"
+            className="w-full object-contain"
           />
         </div>
         <div className="container mx-auto px-4">
