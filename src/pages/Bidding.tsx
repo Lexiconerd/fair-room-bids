@@ -409,6 +409,9 @@ const Bidding = () => {
                 {/* Pick Order Bids */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-foreground">Pick Order Bids</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Each pick must be priced lower than or equal to the previous pick.
+                  </p>
                   
                   {pickOrders.map((pick) => (
                     <div key={pick.id}>
