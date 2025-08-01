@@ -312,8 +312,9 @@ const Bidding = () => {
             <DollarSign className="h-4 w-4" />
             <AlertDescription className="text-foreground">
               <strong>Important:</strong> Your total must equal exactly $3,275. 
-              Bid on pick order positions (1st pick gets Primary bedroom, then choose from bedrooms 1-4). 
+              Bid on pick order positions NOT bedrooms, but first pick will probably take primary bedroom. 
               Singles automatically get bedroom 5 (twin beds) and pay half the lowest couple payment.
+              Couples that don't participate will have equal bids automatically assigned to them.
             </AlertDescription>
           </Alert>
 
@@ -324,7 +325,7 @@ const Bidding = () => {
                 <span>Bidding Form</span>
               </CardTitle>
               <CardDescription>
-                Complete all fields below. Deadline: [Insert Deadline Date]
+                Complete all fields below. Deadline: August 31
               </CardDescription>
             </CardHeader>
             
@@ -459,8 +460,8 @@ const Bidding = () => {
 
           {/* Contact Info */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Questions? Complaints? Just text me. You have my number. You know where to find me coward.</p>
-            <p>Bidding deadline: TBD</p>
+            <p>Questions? Complaints? Just text me. You have my number. You know where to find me.</p>
+            <p>Bidding deadline: August 31, 11:59PM. No extensions.</p>
           </div>
         </div>
       </main>
