@@ -183,35 +183,35 @@ const Bidding = () => {
       });
       return;
     }
-
+  
     lastSubmissionTime.current = now;
     setIsSubmitting(true);
-
+  
     try {
-      // Method 1: Try with FormData (recommended for Netlify)
+      // Prepare data for Netlify form submission
       const netlifyFormData = new FormData();
       netlifyFormData.append("form-name", "pick-order-bidding");
-      netlifyFormData.append("names", sanitizeInput(formData.names, 100));
-      netlifyFormData.append("email", sanitizeInput(formData.email, 254));
+      netlifyFormData.append("names", formData.names.trim());
+      netlifyFormData.append("email", formData.email.trim());
       netlifyFormData.append("firstPick", formData.firstPick);
       netlifyFormData.append("secondPick", formData.secondPick);
       netlifyFormData.append("thirdPick", formData.thirdPick);
       netlifyFormData.append("fourthPick", formData.fourthPick);
       netlifyFormData.append("fifthPick", formData.fifthPick);
-      netlifyFormData.append("comments", sanitizeInput(formData.comments, 1000));
+      netlifyFormData.append("comments", formData.comments);
       netlifyFormData.append("bot-field", honeypotRef.current);
-
+  
       const response = await fetch("/", {
         method: "POST",
         body: netlifyFormData
       });
-
+  
       if (response.ok) {
         toast({
           title: "Bids submitted successfully!",
           description: "Thank you for participating in the fair bidding system.",
         });
-
+  
         // Reset form
         setFormData({
           names: "",
@@ -226,8 +226,10 @@ const Bidding = () => {
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
     } catch (error) {
+      console.error("Form submission error:", error);
+      
       // Fallback: Try URL-encoded format
       try {
         const encode = (data: Record<string, string>) => {
@@ -235,30 +237,30 @@ const Bidding = () => {
             .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
             .join("&");
         };
-
+  
         const fallbackResponse = await fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encode({
             "form-name": "pick-order-bidding",
-            names: sanitizeInput(formData.names, 100),
-            email: sanitizeInput(formData.email, 254),
+            names: formData.names.trim(),
+            email: formData.email.trim(),
             firstPick: formData.firstPick,
             secondPick: formData.secondPick,
             thirdPick: formData.thirdPick,
             fourthPick: formData.fourthPick,
             fifthPick: formData.fifthPick,
-            comments: sanitizeInput(formData.comments, 1000),
+            comments: formData.comments,
             "bot-field": honeypotRef.current,
           }),
         });
-
+  
         if (fallbackResponse.ok) {
           toast({
             title: "Bids submitted successfully!",
             description: "Thank you for participating in the fair bidding system.",
           });
-
+  
           // Reset form
           setFormData({
             names: "",
@@ -274,6 +276,7 @@ const Bidding = () => {
           throw new Error("Both submission methods failed");
         }
       } catch (fallbackError) {
+        console.error("Fallback submission error:", fallbackError);
         toast({
           title: "Submission failed",
           description: "Please try again or contact support if the problem persists.",
