@@ -99,7 +99,9 @@ const Index = () => {
             <h1 className="text-5xl font-bold mb-6 text-foreground">
               Montana Here We Come
             </h1>
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+          </div>
+          <div className="text-center max-w-6xl mx-auto px-8">
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
             Erik’s Ranch is a stunning, 100-acre nonprofit guest lodge near Yellowstone,
             offering upscale accommodations and unforgettable experiences.
             <br/>
