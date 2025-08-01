@@ -201,31 +201,6 @@ const Index = () => {
         </Card>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground">Contact Information</h4>
-              <p className="text-muted-foreground">Email: [your-email@example.com]</p>
-              <p className="text-muted-foreground">Phone: [your-phone-number]</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground">Important Dates</h4>
-              <p className="text-muted-foreground">Bidding Deadline: [Insert Date]</p>
-              <p className="text-muted-foreground">Results Announced: [Insert Date]</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground">Property Details</h4>
-              <p className="text-muted-foreground">Villa Serenity</p>
-              <p className="text-muted-foreground">[Property Address]</p>
-            </div>
-          </div>
-          <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 Villa Serenity Room Bidding System. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
