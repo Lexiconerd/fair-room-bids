@@ -563,19 +563,6 @@ const Algorithm = () => {
             </Accordion>
           </section>
 
-          {/* VCG Properties */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Why Vickrey-Clarke-Groves is Ideal</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-3 p-4 bg-card rounded-lg border border-border">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-muted-foreground">{benefit}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* Technical note */}
           <section className="mb-12">
             <Card className="bg-muted/30 border-muted">
@@ -584,11 +571,12 @@ const Algorithm = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">
-                  The Vickrey-Clarke-Groves mechanism is a Nobel Prize-winning auction format that guarantees 
-                  truthful bidding is the dominant strategy. Unlike traditional auctions where strategic 
-                  underbidding might be beneficial, VCG ensures that bidding your true valuations always 
-                  yields the best possible outcome for you. This makes the process fair, efficient, and 
-                  eliminates the need for complex bidding strategies.
+                  VCG is an auction system designed to make people bid honestly. 
+                  In an Airbnb with multiple rooms, guests submit sealed bids and 
+                  winners get their preferred rooms but pay based on the "harm" they caused others - 
+                  what the next-best bidder would have received minus what they actually got.
+                  Since your payment depends on other people's outcomes rather than your own bid, 
+                  lying can't help you strategically, making truth-telling the optimal approach.
                 </p>
               </CardContent>
             </Card>
@@ -599,11 +587,6 @@ const Algorithm = () => {
             <Card className="inline-block bg-gradient-to-r from-primary/10 to-primary-glow/10 border-primary/20">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Submit Your Bids?</h3>
-                <p className="text-muted-foreground mb-6">
-                  The VCG mechanism is designed to make everyone better off. Simply bid what each pick order 
-                  position is truly worth to you - no strategy needed! Don't want to participate in bidding? 
-                  Singles will be automatically assigned bedroom 5 (twin beds) and pay half the lowest couple payment.
-                </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                     Start Bidding <ArrowRight className="ml-2 h-5 w-5" />
