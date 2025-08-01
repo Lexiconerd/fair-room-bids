@@ -147,7 +147,7 @@ const Index = () => {
                   <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                     <Icon className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  <CardTitle className="text-base">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-muted-foreground">
