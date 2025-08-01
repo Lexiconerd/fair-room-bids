@@ -364,24 +364,6 @@ const Algorithm = () => {
             </Accordion>
           </section>
 
-          {/* Technical note */}
-          <section className="mb-12">
-            <Card className="bg-muted/30 border-muted">
-              <CardHeader>
-                <CardTitle className="text-lg">The Power of Second-Price Auctions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">
-                  This mechanism combines a second-price sealed-bid auction (like eBay's proxy bidding) with 
-                  sequential room selection. The second-price rule means you can bid your true maximum value 
-                  without worrying about overpaying or complex strategies. Combined with pick-order selection, 
-                  this creates a fun, fair, and efficient way to allocate rooms where everyone feels they got 
-                  a good deal.
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-
           {/* Call to action */}
           <div className="text-center">
             <Card className="inline-block bg-gradient-to-r from-primary/10 to-primary-glow/10 border-primary/20">
