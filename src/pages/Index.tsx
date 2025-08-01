@@ -23,8 +23,8 @@ const Index = () => {
       name: "Primary Bedroom",
       image: roomAImage,
       features: ["King Bed", "En-suite Bathroom", "Outdoor Deck"],
-      description: "Wake up to sweeping mountain vistas in this luxurious main-level suite with king bed and access to a private deck.",
-      highlight: "First Pick Choice"
+      description: "Stay away from the riff-raff downstairs, en-suite bathroom, and you get direct access to the outdoor deck",
+      highlight: "Much Luxury"
     },
     {
       letter: "1", 
@@ -172,7 +172,8 @@ const Index = () => {
               className="text-primary hover:text-primary/80 underline"
             >
               Primary bedroom
-            </a> (1st pick), bedrooms 1-4 (picks 2-5), and bedroom 5 (twins for singles). 
+            </a> (best by far), bedrooms 1-4 (couple rooms), and bedroom 5 (twins for singles).
+            The downstairs bedrooms are all connected, and two are windowless.
             Browse and plan your pick order strategy.
           </p>
         </div>
