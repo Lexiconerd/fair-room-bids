@@ -104,14 +104,6 @@ const Algorithm = () => {
     }
   ];
 
-  const benefits = [
-    "Simple and transparent - easy to understand how winners and prices are determined",
-    "Encourages honest bidding - bidding your true value for each position is the smart strategy",
-    "Fair pricing - you never pay more than your bid, often paying less",
-    "Fun picking process - winners get the excitement of choosing their room in order",
-    "Budget balanced - total payments always equal exactly $3,275"
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/30">
       <Navigation />
@@ -123,7 +115,7 @@ const Algorithm = () => {
               How the Second-Price Position Auction Works
             </h1>
             <p className="text-xl text-muted-foreground">
-              A fair and simple mechanism where you bid for pick order, then choose rooms sequentially
+              Submit what you think is a fair allocation of the $3,275 and watch yourself (probably) pay less.
             </p>
           </div>
 
@@ -370,19 +362,6 @@ const Algorithm = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-          </section>
-
-          {/* Benefits */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Why This System Works</h2>
-            <div className="grid md:grid-cols-1 gap-4">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-3 p-4 bg-card rounded-lg border border-border">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-muted-foreground">{benefit}</p>
-                </div>
-              ))}
-            </div>
           </section>
 
           {/* Technical note */}
