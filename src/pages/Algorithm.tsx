@@ -11,22 +11,22 @@ const Algorithm = () => {
     {
       icon: DollarSign,
       title: "Bid on Pick Order",
-      description: "Each couple bids their preferred picking order (1st, 2nd, 3rd, 4th, 5th pick). The total, with the 5th pick doubled, must equal $3,275."
+      description: "Each couple bids on their preferred picking order (1st, 2nd, 3rd, 4th, 5th pick). Higher bids get earlier picks."
     },
     {
       icon: Users,
       title: "Submit Bids",
-      description: "Couples submit their pick order bids anonymously. Singles don't bid and are assigned bedroom 6 (with twin beds)."
+      description: "Couples submit their pick order bids simultaneously. Singles don't bid and are assigned bedroom 6 (with twin beds)."
     },
     {
       icon: Trophy,
       title: "Pick Assignment",
-      description: "VCG algorithm determines pick order. Each pick gets assigned to the highest bidder among the remaining bidders."
+      description: "Highest bidder for each position wins that pick order. Winners then choose rooms sequentially: 1st pick chooses first from all rooms, 2nd pick chooses from remaining rooms, etc."
     },
     {
       icon: CheckCircle,
-      title: "VCG Pricing & Redistribution",
-      description: "Pay the second-highest bid for your pick position. Singles pay half of the lowest pick price. Excess funds (or deficit) are redistributed equally among all participants per VCG mechanism."
+      title: "Second-Price Payment",
+      description: "Pay the second-highest bid for your pick position. Singles pay half of the lowest couple payment. Any surplus or deficit is split equally among all participants to reach exactly $3,275."
     }
   ];
 
@@ -56,30 +56,30 @@ const Algorithm = () => {
       bids: { "1st": 850, "2nd": 700, "3rd": 625, "4th": 400, "5th": 350 },
       pickOrder: "3rd",
       chosenRoom: "Bedroom 3",
-      payment: 600,
+      payment: 550,
       type: "couple",
       bidForPick: 625,
-      savings: 25
+      savings: 75
     },
     {
       couple: "Sam & Riley",
       bids: { "1st": 625, "2nd": 550, "3rd": 550, "4th": 550, "5th": 500 },
-      pickOrder: "5th",
+      pickOrder: "4th",
       chosenRoom: "Bedroom 4",
-      payment: 500,
+      payment: 565,
       type: "couple",
-      bidForPick: 500,
-      savings: 0
+      bidForPick: 550,
+      savings: -15
     },
     {
       couple: "Robin & Sage",
       bids: { "1st": 570, "2nd": 570, "3rd": 570, "4th": 565, "5th": 500 },
-      pickOrder: "4th",
+      pickOrder: "5th",
       chosenRoom: "Bedroom 5",
-      payment: 550,
+      payment: 500,
       type: "couple",
-      bidForPick: 565,
-      savings: 15
+      bidForPick: 500,
+      savings: 0
     },
     {
       couple: "Chris (Single)",
@@ -104,11 +104,11 @@ const Algorithm = () => {
   ];
 
   const benefits = [
-    "Strategy-proof mechanism - bidding your true preferences is always optimal",
-    "Fair pricing - you never pay more than your maximum willingness to pay",
-    "Efficient allocation - rooms go to those who value them most highly",
-    "Transparent process - everyone understands the Vickrey-Clarke-Groves rules",
-    "Non-participants accommodated - singles get the remaining room at fair cost"
+    "Simple and transparent - easy to understand how winners and prices are determined",
+    "Encourages honest bidding - bidding your true value for each position is the smart strategy",
+    "Fair pricing - you never pay more than your bid, often paying less",
+    "Fun picking process - winners get the excitement of choosing their room in order",
+    "Budget balanced - total payments always equal exactly $3,275"
   ];
 
   return (
@@ -119,10 +119,10 @@ const Algorithm = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4 text-foreground">
-              How the Vickrey-Clarke-Groves Auction Works
+              How the Second-Price Position Auction Works
             </h1>
             <p className="text-xl text-muted-foreground">
-              A proven strategy-proof mechanism that ensures optimal room allocation and fair pricing
+              A fair and simple mechanism where you bid for pick order, then choose rooms sequentially
             </p>
           </div>
 
@@ -156,7 +156,7 @@ const Algorithm = () => {
 
           {/* Example scenarios */}
           <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Example Scenarios</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Example Scenario</h2>
             
             {/* Main scenario */}
             <div className="mb-8">
@@ -164,7 +164,7 @@ const Algorithm = () => {
                 <CardHeader>
                   <CardTitle>Realistic Example: 5 Bidding Couples + 2 Non-Bidding Singles</CardTitle>
                   <CardDescription>
-                    See how the VCG mechanism determines pick order, with singles automatically assigned bedroom 5 (twin beds)
+                    See how the second-price position auction determines pick order and payments
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -204,26 +204,24 @@ const Algorithm = () => {
 
                   {/* Results Table */}
                   <div>
-                    <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
+                    <h4 className="font-semibold text-foreground mb-4">Auction Results</h4>
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse">
                         <thead>
                           <tr className="border-b border-border">
                             <th className="text-left p-3 font-semibold">Participant</th>
-                            <th className="text-center p-3 font-semibold">Assigned Pick</th>
+                            <th className="text-center p-3 font-semibold">Won Pick</th>
                             <th className="text-center p-3 font-semibold">Room Chosen</th>
-                            <th className="text-center p-3 font-semibold">VCG Payment</th>
-                            <th className="text-center p-3 font-semibold">Redistribution</th>
+                            <th className="text-center p-3 font-semibold">Their Bid</th>
+                            <th className="text-center p-3 font-semibold">2nd Price Payment</th>
+                            <th className="text-center p-3 font-semibold">Adjustment</th>
                             <th className="text-center p-3 font-semibold">Final Payment</th>
-                            <th className="text-center p-3 font-semibold">Bid vs Final</th>
                           </tr>
                         </thead>
                         <tbody>
                           {exampleBids.map((bid, index) => {
-                            const redistribution = bid.type === 'single' ? -60.71 : -60.71;
-                            const finalPayment = bid.type === 'single' ? 162.50 : bid.payment + redistribution;
-                            const bidAmount = bid.type === 'single' ? 0 : (typeof bid.bidForPick === 'number' ? bid.bidForPick : 0);
-                            const savings = bid.type === 'single' ? 0 : bidAmount - finalPayment;
+                            const adjustment = -46.43;
+                            const finalPayment = bid.type === 'single' ? 203.57 : bid.payment + adjustment;
                             
                             return (
                               <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
@@ -245,27 +243,25 @@ const Algorithm = () => {
                                     {bid.chosenRoom}
                                   </Badge>
                                 </td>
-                                <td className="text-center p-3 font-semibold">
+                                <td className="text-center p-3">
                                   {bid.type === 'single' ? (
                                     <span className="text-muted-foreground">—</span>
+                                  ) : (
+                                    `$${bid.bidForPick}`
+                                  )}
+                                </td>
+                                <td className="text-center p-3 font-semibold">
+                                  {bid.type === 'single' ? (
+                                    <span className="text-muted-foreground">$250</span>
                                   ) : (
                                     `$${bid.payment}`
                                   )}
                                 </td>
                                 <td className="text-center p-3 text-green-600 font-medium">
-                                  -$60.71
+                                  -$46.43
                                 </td>
                                 <td className="text-center p-3 font-semibold text-primary">
                                   ${finalPayment.toFixed(2)}
-                                </td>
-                                <td className="text-center p-3">
-                                  {bid.type === 'single' ? (
-                                    <span className="text-muted-foreground">—</span>
-                                  ) : (
-                                    <span className="font-semibold text-green-600">
-                                      +${savings.toFixed(2)}
-                                    </span>
-                                  )}
                                 </td>
                               </tr>
                             );
@@ -276,14 +272,15 @@ const Algorithm = () => {
                   </div>
                   
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <h4 className="font-semibold text-foreground mb-2">VCG Results Summary:</h4>
+                    <h4 className="font-semibold text-foreground mb-2">Results Summary:</h4>
                     <ul className="text-sm text-foreground space-y-1">
-                      <li>• Alex & Jamie bid highest for 1st pick ($1,200) and get first choice - select Primary bedroom</li>
-                      <li>• Each couple pays the second-highest bid for their assigned pick position (VCG pricing)</li>
-                      <li>• <strong>Total VCG payments: $2,525</strong> + Singles payment: $325 = $2,850</li>
-                      <li>• Shortfall of $425 redistributed equally among all 7 participants (-$60.71 each)</li>
-                      <li>• <strong>Final total collected: Exactly $3,275</strong> to cover Airbnb costs</li>
-                      <li>• Pick order determines room selection: Primary → Bedroom 1 → Bedroom 2 → Bedroom 3 → Bedroom 4</li>
+                      <li>• Alex & Jamie bid highest for 1st pick ($1,125) but only pay the 2nd highest bid ($1,000)</li>
+                      <li>• Each winner pays the second-highest bid for their position - this encourages honest bidding</li>
+                      <li>• Pick order: Alex & Jamie → Morgan & Casey → Taylor & Jordan → Sam & Riley → Robin & Sage</li>
+                      <li>• Room selection happens sequentially based on pick order</li>
+                      <li>• <strong>Total second-price payments: $3,315</strong> + Singles: $500 = $3,815</li>
+                      <li>• Surplus of $540 redistributed equally among all 7 participants (-$46.43 each)</li>
+                      <li>• <strong>Final total collected: Exactly $3,275</strong></li>
                     </ul>
                   </div>
                 </CardContent>
@@ -292,291 +289,114 @@ const Algorithm = () => {
 
             {/* Additional scenarios in accordion */}
             <Accordion type="single" collapsible className="space-y-4">
-              <AccordionItem value="single-bidder" className="border border-border rounded-lg">
+              <AccordionItem value="why-second-price" className="border border-border rounded-lg">
                 <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                  <span className="font-semibold text-left">What happens if nobody participates but one person?</span>
+                  <span className="font-semibold text-left">Why use second-price instead of just paying your bid?</span>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-6">
-                  <div className="space-y-6">
-                    <p className="text-muted-foreground">
-                      If only one couple participates in bidding while everyone else gets default assignments, the non-participants get default bids of $468 for picks 1-4 and $475 for pick 5:
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      Second-price auctions have a magical property: <strong>bidding your true value is always your best strategy</strong>, 
+                      regardless of what others do. Here's why:
                     </p>
                     
-                    {/* Bids Table */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-4">Bids Made</h4>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="border-b border-border">
-                              <th className="text-left p-3 font-semibold">Participant</th>
-                              <th className="text-center p-3 font-semibold">1st Pick</th>
-                              <th className="text-center p-3 font-semibold">2nd Pick</th>
-                              <th className="text-center p-3 font-semibold">3rd Pick</th>
-                              <th className="text-center p-3 font-semibold">4th Pick</th>
-                              <th className="text-center p-3 font-semibold">5th Pick</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Alex & Jamie</td>
-                              <td className="text-center p-3 font-semibold">$1,200</td>
-                              <td className="text-center p-3">$950</td>
-                              <td className="text-center p-3">$700</td>
-                              <td className="text-center p-3">$500</td>
-                              <td className="text-center p-3">$400</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Morgan & Casey <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$475</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Taylor & River <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$468</td>
-                              <td className="text-center p-3 text-muted-foreground">$475</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    {/* Results Table */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="border-b border-border">
-                              <th className="text-left p-3 font-semibold">Participant</th>
-                              <th className="text-center p-3 font-semibold">Assigned Pick</th>
-                              <th className="text-center p-3 font-semibold">Room Chosen</th>
-                              <th className="text-center p-3 font-semibold">VCG Payment</th>
-                              <th className="text-center p-3 font-semibold">Redistribution</th>
-                              <th className="text-center p-3 font-semibold">Final Payment</th>
-                              <th className="text-center p-3 font-semibold">Bid vs Final</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Alex & Jamie</td>
-                              <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
-                              <td className="text-center p-3 font-semibold">$468</td>
-                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
-                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
-                              <td className="text-center p-3 font-semibold text-green-600">+$732.00</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Morgan & Casey <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3"><Badge variant="outline">2nd</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
-                              <td className="text-center p-3 font-semibold">$468</td>
-                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
-                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
-                              <td className="text-center p-3 font-semibold text-green-600">+$0.00</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Taylor & River <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3"><Badge variant="outline">3rd</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 2</Badge></td>
-                              <td className="text-center p-3 font-semibold">$468</td>
-                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
-                              <td className="text-center p-3 font-semibold text-primary">$468.00</td>
-                              <td className="text-center p-3 font-semibold text-green-600">+$0.00</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 5</Badge></td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                              <td className="text-center p-3 text-green-600 font-medium">+$0</td>
-                              <td className="text-center p-3 font-semibold text-primary">$234.00</td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                    <div className="bg-card p-4 rounded-lg border border-border">
+                      <h5 className="font-semibold text-foreground mb-2">If you bid too high:</h5>
+                      <p>You might win when you shouldn't, paying more than the position is worth to you</p>
                     </div>
                     
-                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                      <h4 className="font-semibold text-foreground mb-2">Results Summary:</h4>
-                      <ul className="text-sm text-foreground space-y-1">
-                        <li>• Alex & Jamie get 1st pick and pay the 2nd highest bid ($468) instead of their bid ($1,200)</li>
-                        <li>• Non-participants get assigned picks based on default bids and pay those amounts</li>
-                        <li>• No redistribution needed as total payments exactly cover costs</li>
-                        <li>• Total collected: $1,872 (3 couples × $468 + 1 single × $234) = exactly $1,872 portion of $3,275</li>
-                      </ul>
+                    <div className="bg-card p-4 rounded-lg border border-border">
+                      <h5 className="font-semibold text-foreground mb-2">If you bid too low:</h5>
+                      <p>You might lose when you would have happily paid the second-highest price</p>
                     </div>
+                    
+                    <div className="bg-card p-4 rounded-lg border border-border">
+                      <h5 className="font-semibold text-foreground mb-2">If you bid exactly your true value:</h5>
+                      <p>You win if and only if the price is below what it's worth to you - perfect!</p>
+                    </div>
+                    
+                    <p>
+                      This eliminates the need for complex bidding strategies. Just ask yourself: "What's the most 
+                      I'd be willing to pay for this pick position?" and bid that amount. The second-price rule 
+                      ensures you'll always get a good deal if you win.
+                    </p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="tie-scenario" className="border border-border rounded-lg">
                 <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                  <span className="font-semibold text-left">What happens if there is a tie between two people?</span>
+                  <span className="font-semibold text-left">What happens if there's a tie?</span>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-6">
-                  <div className="space-y-6">
-                    <p className="text-muted-foreground">
-                      If two couples bid the same amount for the same pick position, a random tiebreaker determines the winner:
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      If two couples bid the same amount for the same pick position, we use a random tiebreaker 
+                      (like a coin flip) to determine the winner. The winner still pays the second-highest bid, 
+                      which in case of a tie would be the tied amount.
                     </p>
                     
-                    {/* Bids Table */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-4">Bids Made</h4>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="border-b border-border">
-                              <th className="text-left p-3 font-semibold">Participant</th>
-                              <th className="text-center p-3 font-semibold">1st Pick</th>
-                              <th className="text-center p-3 font-semibold">2nd Pick</th>
-                              <th className="text-center p-3 font-semibold">3rd Pick</th>
-                              <th className="text-center p-3 font-semibold">4th Pick</th>
-                              <th className="text-center p-3 font-semibold">5th Pick</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Alex & Jamie</td>
-                              <td className="text-center p-3 font-semibold">$1,200</td>
-                              <td className="text-center p-3">$950</td>
-                              <td className="text-center p-3">$700</td>
-                              <td className="text-center p-3">$500</td>
-                              <td className="text-center p-3">$400</td>
-                            </tr>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Morgan & Casey</td>
-                              <td className="text-center p-3 font-semibold">$1,200</td>
-                              <td className="text-center p-3">$900</td>
-                              <td className="text-center p-3">$650</td>
-                              <td className="text-center p-3">$450</td>
-                              <td className="text-center p-3">$350</td>
-                            </tr>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Taylor & River</td>
-                              <td className="text-center p-3">$1,000</td>
-                              <td className="text-center p-3 font-semibold">$800</td>
-                              <td className="text-center p-3">$600</td>
-                              <td className="text-center p-3">$400</td>
-                              <td className="text-center p-3">$300</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                              <td className="text-center p-3 text-muted-foreground">—</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    <p>
+                      For example: If Alex and Morgan both bid $1,000 for 1st pick and no one bid higher, 
+                      one would randomly win 1st pick and pay $1,000 (the "second-highest" bid), while the 
+                      other would get their next preference.
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-                    {/* Results Table */}
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-4">VCG Auction Results</h4>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="border-b border-border">
-                              <th className="text-left p-3 font-semibold">Participant</th>
-                              <th className="text-center p-3 font-semibold">Assigned Pick</th>
-                              <th className="text-center p-3 font-semibold">Room Chosen</th>
-                              <th className="text-center p-3 font-semibold">VCG Payment</th>
-                              <th className="text-center p-3 font-semibold">Redistribution</th>
-                              <th className="text-center p-3 font-semibold">Final Payment</th>
-                              <th className="text-center p-3 font-semibold">Bid vs Final</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Alex & Jamie</td>
-                              <td className="text-center p-3"><Badge className="bg-primary text-primary-foreground">1st</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Primary</Badge></td>
-                              <td className="text-center p-3 font-semibold">$1,200</td>
-                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
-                              <td className="text-center p-3 font-semibold text-primary">$1,333.33</td>
-                              <td className="text-center p-3 font-semibold text-red-600">-$133.33</td>
-                            </tr>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Morgan & Casey</td>
-                              <td className="text-center p-3"><Badge variant="outline">2nd</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 1</Badge></td>
-                              <td className="text-center p-3 font-semibold">$1,000</td>
-                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
-                              <td className="text-center p-3 font-semibold text-primary">$1,133.33</td>
-                              <td className="text-center p-3 font-semibold text-green-600">+$66.67</td>
-                            </tr>
-                            <tr className="border-b border-border">
-                              <td className="p-3 font-medium">Taylor & River</td>
-                              <td className="text-center p-3"><Badge variant="outline">3rd</Badge></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 2</Badge></td>
-                              <td className="text-center p-3 font-semibold">$800</td>
-                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
-                              <td className="text-center p-3 font-semibold text-primary">$933.33</td>
-                              <td className="text-center p-3 font-semibold text-green-600">+$66.67</td>
-                            </tr>
-                            <tr className="border-b border-border bg-muted/30">
-                              <td className="p-3 font-medium">Sam <UserX className="inline ml-1 h-4 w-4 text-muted-foreground" /></td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                              <td className="text-center p-3"><Badge variant="outline">Bedroom 5</Badge></td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                              <td className="text-center p-3 text-red-600 font-medium">+$133.33</td>
-                              <td className="text-center p-3 font-semibold text-primary">$533.33</td>
-                              <td className="text-center p-3"><span className="text-muted-foreground">—</span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+              <AccordionItem value="budget-balance" className="border border-border rounded-lg">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                  <span className="font-semibold text-left">How do you ensure exactly $3,275 is collected?</span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      The second-price payments might not add up to exactly $3,275. We handle this with a simple adjustment:
+                    </p>
                     
-                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                      <h4 className="font-semibold text-foreground mb-2">Tie Resolution Summary:</h4>
-                      <ul className="text-sm text-foreground space-y-1">
-                        <li>• Alex & Jamie and Morgan & Casey both bid $1,200 for 1st pick</li>
-                        <li>• Random tiebreaker assigns Alex & Jamie as 1st pick winner</li>
-                        <li>• Both tied participants pay their full tied bid amount ($1,200) per VCG rules</li>
-                        <li>• Morgan & Casey get 2nd pick and pay Taylor & River's 2nd pick bid ($1,000)</li>
-                        <li>• Total VCG payments: $3,000, requiring $533.33 redistribution to reach $3,275</li>
-                      </ul>
-                    </div>
+                    <ul className="space-y-2 list-disc list-inside">
+                      <li>If total payments exceed $3,275: Everyone gets an equal rebate</li>
+                      <li>If total payments fall short of $3,275: Everyone pays an equal additional share</li>
+                    </ul>
+                    
+                    <p>
+                      This adjustment is typically small (around $50 per person) and is split equally so everyone 
+                      shares the burden or benefit fairly. The core auction still incentivizes truthful bidding, 
+                      and the adjustment ensures we collect exactly what's needed for the Airbnb.
+                    </p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
           </section>
 
+          {/* Benefits */}
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold mb-8 text-center text-foreground">Why This System Works</h2>
+            <div className="grid md:grid-cols-1 gap-4">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-start space-x-3 p-4 bg-card rounded-lg border border-border">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <p className="text-muted-foreground">{benefit}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* Technical note */}
           <section className="mb-12">
             <Card className="bg-muted/30 border-muted">
               <CardHeader>
-                <CardTitle className="text-lg">About the VCG Mechanism</CardTitle>
+                <CardTitle className="text-lg">The Power of Second-Price Auctions</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">
-                  VCG is an auction system designed to make people bid honestly. 
-                  In an Airbnb with multiple rooms, guests submit sealed bids and 
-                  winners get their preferred rooms but pay based on the "harm" they caused others - 
-                  what the next-best bidder would have received minus what they actually got.
-                  Since your payment depends on other people's outcomes rather than your own bid, 
-                  lying can't help you strategically, making truth-telling the optimal approach.
+                  This mechanism combines a second-price sealed-bid auction (like eBay's proxy bidding) with 
+                  sequential room selection. The second-price rule means you can bid your true maximum value 
+                  without worrying about overpaying or complex strategies. Combined with pick-order selection, 
+                  this creates a fun, fair, and efficient way to allocate rooms where everyone feels they got 
+                  a good deal.
                 </p>
               </CardContent>
             </Card>
@@ -587,6 +407,11 @@ const Algorithm = () => {
             <Card className="inline-block bg-gradient-to-r from-primary/10 to-primary-glow/10 border-primary/20">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Submit Your Bids?</h3>
+                <p className="text-muted-foreground mb-6">
+                  Simply bid what each pick position is truly worth to you - no complex strategy needed! 
+                  The second-price rule ensures you'll never overpay. Singles will be automatically assigned 
+                  bedroom 6 (twin beds) at a fair price.
+                </p>
                 <Link to="/bidding">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                     Start Bidding <ArrowRight className="ml-2 h-5 w-5" />
