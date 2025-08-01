@@ -305,7 +305,7 @@ const Algorithm = () => {
                     
                     <div className="bg-card p-4 rounded-lg border border-border">
                       <h5 className="font-semibold text-foreground mb-2">If you bid exactly your true value:</h5>
-                      <p>You win if and only if the price is below what it's worth to you - perfect!</p>
+                      <p>You win if and probably pay a price below what it's worth to you - perfect!</p>
                     </div>
                     
                     <p>
