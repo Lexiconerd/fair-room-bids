@@ -104,8 +104,8 @@ const Index = () => {
             offering upscale accommodations and unforgettable experiences.
             <br/>
             <br/>
-            But before all of that, Jay&#8212;Kathleen washes her hands of it&#8212;would like
-            you to price your willingness (or lack thereof) to pay for a better room.
+            But before all of that, Jay would like you to price your willingness (or lack thereof) to pay for a better room.
+            Kathleen is not involved and not responsible for any harm this may cause.
           </p>
           <div className="mb-6">
             <a 
