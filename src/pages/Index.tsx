@@ -165,16 +165,19 @@ const Index = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 text-foreground">Available Rooms</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            6 bedrooms total: Primary bedroom (1st pick), bedrooms 1-4 (picks 2-5), and bedroom 5 (twins for singles). 
+            6 bedrooms total: <a 
+              href="https://www.nytimes.com/2020/08/05/realestate/master-bedroom-change.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 underline"
+            >
+              Primary bedroom
+            </a> (1st pick), bedrooms 1-4 (picks 2-5), and bedroom 5 (twins for singles). 
             Browse and plan your pick order strategy.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {rooms.map((room) => (
-            <RoomCard key={room.letter} {...room} />
-          ))}
-        </div>
+        {/* rest of your room cards */}
       </section>
 
       {/* Call to Action */}
