@@ -65,10 +65,10 @@ const Bidding = () => {
       bids: { "1st": 850, "2nd": 700, "3rd": 625, "4th": 400, "5th": 350 },
       pickOrder: "3rd",
       chosenRoom: "Bedroom 3",
-      payment: 625,
+      payment: 570,
       type: "couple",
       bidForPick: 625,
-      savings: 0
+      savings: 55
     },
     {
       couple: "Robin & Sage",
@@ -497,8 +497,8 @@ const Bidding = () => {
                       </thead>
                       <tbody>
                         {exampleBids.map((bid, index) => {
-                          const adjustment = bid.type === 'single' ? -50.00 : -100.00;
-                          const finalPayment = bid.type === 'single' ? 200.00 : bid.payment + adjustment;
+                          const adjustment = bid.type === 'single' ? -45.42 : -90.83;
+                          const finalPayment = bid.type === 'single' ? 204.58 : bid.payment + adjustment;
                           
                           return (
                             <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
@@ -535,7 +535,7 @@ const Bidding = () => {
                                 )}
                               </td>
                               <td className="text-center p-3 text-green-600 font-medium">
-                                {bid.type === 'single' ? '-$50.00' : '-$100.00'}
+                                {bid.type === 'single' ? '-$45.42' : '-$90.83'}
                               </td>
                               <td className="text-center p-3 font-semibold text-primary">
                                 ${finalPayment.toFixed(2)}
@@ -555,8 +555,8 @@ const Bidding = () => {
                     <li>• Each winner pays the second-highest bid for their position - this encourages honest bidding</li>
                     <li>• Pick order: Alex & Jamie → Morgan & Casey → Taylor & Jordan → Robin & Sage → Sam & Riley</li>
                     <li>• Room selection happens sequentially based on pick order</li>
-                    <li>• <strong>Total second-price payments: $3,375</strong> + Singles: $500 = $3,875</li>
-                    <li>• Surplus of $600 redistributed: couples get $100 back (for 2 people), singles get $50 back (for 1 person)</li>
+                    <li>• <strong>Total second-price payments: $3,320</strong> + Singles: $500 = $3,820</li>
+                    <li>• Surplus of $545 redistributed: couples get $90.83 back (for 2 people), singles get $45.42 back (for 1 person)</li>
                     <li>• <strong>Final total collected: Exactly $3,275</strong></li>
                   </ul>
                 </div>
