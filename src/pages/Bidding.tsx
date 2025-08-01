@@ -53,9 +53,12 @@ const Bidding = () => {
     setIsValid(weightedCalculation === 3275 && formData.names.trim().length > 0 && formData.email.trim().length > 0);
   }, [formData]);
 
-  const sanitizeInput = (input: string, maxLength: number = 500): string => {
-    return input
-      .trim()
+  const sanitizeInput = (input: string, maxLength: number = 500, shouldTrim: boolean = true): string => {
+    let processed = input;
+    if (shouldTrim) {
+      processed = processed.trim();
+    }
+    return processed
       .slice(0, maxLength)
       .replace(/[<>]/g, '') // Remove potential XSS characters
       .replace(/javascript:/gi, '') // Remove javascript: protocol
@@ -84,7 +87,7 @@ const Bidding = () => {
     let sanitizedValue = value;
     
     if (field === 'names') {
-      sanitizedValue = sanitizeInput(value, 100);
+      sanitizedValue = sanitizeInput(value, 100, false); // Don't trim spaces for names
     } else if (field === 'email') {
       sanitizedValue = sanitizeInput(value, 254);
     } else if (field === 'comments') {
