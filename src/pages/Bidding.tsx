@@ -306,7 +306,7 @@ const Bidding = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Pick Order Bids</h1>
             <p className="text-xl text-muted-foreground">
-              Your total must equal $3,275 across all pick order positions
+              Your weighted total must equal $3,275 across all pick order positions
             </p>
           </div>
 
@@ -314,10 +314,10 @@ const Bidding = () => {
           <Alert className="mb-8 border-primary/20 bg-primary/5">
             <DollarSign className="h-4 w-4" />
             <AlertDescription className="text-foreground">
-              <strong>Important:</strong> Your total must equal exactly $3,275. 
-              Bid on pick order positions NOT bedrooms, but first pick will probably take primary bedroom. 
-              Singles automatically get bedroom 5 (twin beds) and pay half the lowest couple payment.
-              Couples that don't participate will have equal bids automatically assigned to them.
+              <strong>Important:</strong> Bids are on pick order positions NOT bedrooms.
+              So you can win 1st pick and pick bedroom 3 if you're not like other girls.
+              Singles automatically get bedroom 5 (twin beds) and pay half the 5th bid (which should be the lowest).
+              Couples that don't participate will have equal prices across all picks automatically assigned to them.
             </AlertDescription>
           </Alert>
 
