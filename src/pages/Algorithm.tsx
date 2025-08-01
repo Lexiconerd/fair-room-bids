@@ -27,7 +27,7 @@ const Algorithm = () => {
     {
       icon: CheckCircle,
       title: "Second-Price Payment",
-      description: "Pay the second-highest bid for your pick position. Singles pay half of the lowest couple payment. Any surplus or deficit is split equally among all participants to reach exactly $3,275."
+      description: "Pay the second-highest bid for your pick position from among remaining bidders. 5th pick pays the next lowest bid (may be equal). Singles pay half of the lowest couple payment. Any surplus or deficit is split equally among all participants to reach exactly $3,275."
     }
   ];
 
@@ -67,10 +67,10 @@ const Algorithm = () => {
       bids: { "1st": 625, "2nd": 550, "3rd": 550, "4th": 550, "5th": 500 },
       pickOrder: "5th",
       chosenRoom: "Bedroom 5",
-      payment: 350,
+      payment: 500,
       type: "couple",
       bidForPick: 500,
-      savings: 150
+      savings: 0
     },
     {
       couple: "Robin & Sage",
@@ -324,17 +324,24 @@ const Algorithm = () => {
                 <AccordionContent className="px-6 pb-6">
                   <div className="space-y-4 text-muted-foreground">
                     <p>
-                      If two couples bid the same amount for the same pick position, we use a random tiebreaker 
-                      (like a coin flip) to determine the winner. The winner still pays the second-highest bid, 
-                      which in case of a tie would be the tied amount.
+                      If two couples bid the same amount for the same pick position, we use different tiebreaking rules:
                     </p>
                     
+                    <div className="bg-card p-4 rounded-lg border border-border">
+                      <h5 className="font-semibold text-foreground mb-2">For most positions (1st-3rd pick):</h5>
+                      <p>Use a random tiebreaker (coin flip). Winner pays the tied amount.</p>
+                    </div>
+                    
+                    <div className="bg-card p-4 rounded-lg border border-border">
+                      <h5 className="font-semibold text-foreground mb-2">For 4th pick specifically:</h5>
+                      <p>The 4th pick goes to whoever values the 5th pick <em>less</em> (has a lower 5th pick bid). This maximizes total welfare since it puts the person with lower 5th pick preference in 4th, leaving 5th pick for someone who values it more. The 5th pick person then pays the 4th pick winner's bid for 5th position.</p>
+                    </div>
+                    
                     <p>
-                      For example: If Alex and Morgan both bid $1,000 for 1st pick and no one bid higher, 
-                      one would randomly win 1st pick and pay $1,000 (the "second-highest" bid), while the 
-                      other would get their next preference.
+                      For example: If Robin and Sam both bid $550 for 4th pick, but Robin bid $500 for 5th pick while Sam bid $350 for 5th pick, then Sam wins 4th pick (lower 5th pick valuation) and Robin gets 5th pick paying $350 (Sam's 5th pick bid).
                     </p>
                   </div>
+                  
                 </AccordionContent>
               </AccordionItem>
 
