@@ -14,6 +14,7 @@ import roomB2Image from "@/assets/room-b-2.jpg";
 import roomCImage from "@/assets/room-c.jpg";
 import roomDImage from "@/assets/room-d.jpg";
 import roomEImage from "@/assets/room-e.jpg";
+import heroImage from "@/assets/hero-image.jpg";
 
 const Index = () => {
   const rooms = [
@@ -85,8 +86,15 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-3xl mx-auto">
+      <section className="relative container mx-auto px-4 py-16">
+        <div className="relative z-10 text-center max-w-3xl mx-auto">
+          <div className="mb-8">
+            <img 
+              src={heroImage} 
+              alt="Erik's Ranch - Montana guest lodge near Yellowstone" 
+              className="w-full max-w-2xl mx-auto rounded-lg shadow-lg object-cover"
+            />
+          </div>
           <h1 className="text-5xl font-bold mb-6 text-foreground">
             Montana Here We Come
           </h1>
