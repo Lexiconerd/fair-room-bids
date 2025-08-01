@@ -459,8 +459,8 @@ const Bidding = () => {
 
           {/* Contact Info */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Questions? Contact us at [your-email@example.com] or [phone-number]</p>
-            <p>Bidding deadline: [Insert Deadline Date and Time]</p>
+            <p>Questions? Complaints? Just text me. You have my number. You know where to find me coward.</p>
+            <p>Bidding deadline: TBD</p>
           </div>
         </div>
       </main>
