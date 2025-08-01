@@ -417,10 +417,10 @@ const Bidding = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Pick Order Bids</h1>
+            <h1 className="text-4xl font-bold mb-4 text-foreground">How the Algorithm Works</h1>
             <p className="text-xl text-muted-foreground">
-              Your weighted total must equal $3,275, the total cost of the Airbnb, across all pick order positions. 
-              When picks are assigned, we will send out venmo requests net of any payments already made. 
+              Our fair bidding system uses a second-price position auction to determine pick order and payments. 
+              See the example below to understand how bids translate into pick order and final costs.
             </p>
           </div>
 
