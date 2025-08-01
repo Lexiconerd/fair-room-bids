@@ -43,7 +43,7 @@ const Algorithm = () => {
     },
     {
       couple: "Morgan & Casey", 
-      bids: { "1st": 1000, "2nd": 750 "3rd": 500, "4th": 425, "5th": 300 },
+      bids: { "1st": 1000, "2nd": 750, "3rd": 500, "4th": 425, "5th": 300 },
       pickOrder: "2nd",
       chosenRoom: "Bedroom 2",
       payment: 700,
