@@ -497,8 +497,8 @@ const Bidding = () => {
                       </thead>
                       <tbody>
                         {exampleBids.map((bid, index) => {
-                          const adjustment = bid.type === 'single' ? -43.75 : -87.50;
-                          const finalPayment = bid.type === 'single' ? 206.25 : bid.payment + adjustment;
+                          const adjustment = bid.type === 'single' ? -50.00 : -100.00;
+                          const finalPayment = bid.type === 'single' ? 200.00 : bid.payment + adjustment;
                           
                           return (
                             <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
@@ -535,7 +535,7 @@ const Bidding = () => {
                                 )}
                               </td>
                               <td className="text-center p-3 text-green-600 font-medium">
-                                {bid.type === 'single' ? '-$43.75' : '-$87.50'}
+                                {bid.type === 'single' ? '-$50.00' : '-$100.00'}
                               </td>
                               <td className="text-center p-3 font-semibold text-primary">
                                 ${finalPayment.toFixed(2)}
