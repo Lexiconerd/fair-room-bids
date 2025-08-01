@@ -193,7 +193,7 @@ const Index = () => {
           <CardContent className="p-12">
             <h3 className="text-3xl font-bold mb-4 text-foreground">You've Reached the End</h3>
             <p className="text-lg text-muted-foreground mb-8">
-              Learn more about this works or start bidding.
+              Learn more about how this works or just start bidding.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/algorithm">
