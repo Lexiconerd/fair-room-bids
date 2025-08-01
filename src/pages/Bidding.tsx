@@ -346,7 +346,8 @@ const Bidding = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 text-foreground">Submit Your Pick Order Bids</h1>
             <p className="text-xl text-muted-foreground">
-              Your weighted total must equal $3,275 across all pick order positions
+              Your weighted total must equal $3,275, the total cost of the Airbnb, across all pick order positions. 
+              When picks are assigned, we will send out venmo requests net of any payments already made. 
             </p>
           </div>
 
