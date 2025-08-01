@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -64,22 +65,22 @@ const Algorithm = () => {
     {
       couple: "Sam & Riley",
       bids: { "1st": 625, "2nd": 550, "3rd": 550, "4th": 550, "5th": 500 },
-      pickOrder: "4th",
-      chosenRoom: "Bedroom 4",
-      payment: 565,
+      pickOrder: "5th",
+      chosenRoom: "Bedroom 5",
+      payment: 350,
       type: "couple",
-      bidForPick: 550,
-      savings: -15
+      bidForPick: 500,
+      savings: 150
     },
     {
       couple: "Robin & Sage",
       bids: { "1st": 570, "2nd": 570, "3rd": 570, "4th": 565, "5th": 500 },
-      pickOrder: "5th",
-      chosenRoom: "Bedroom 5",
-      payment: 500,
+      pickOrder: "4th",
+      chosenRoom: "Bedroom 4",
+      payment: 550,
       type: "couple",
-      bidForPick: 500,
-      savings: 0
+      bidForPick: 565,
+      savings: 15
     },
     {
       couple: "Chris (Single)",
@@ -220,8 +221,8 @@ const Algorithm = () => {
                         </thead>
                         <tbody>
                           {exampleBids.map((bid, index) => {
-                            const adjustment = -46.43;
-                            const finalPayment = bid.type === 'single' ? 203.57 : bid.payment + adjustment;
+                            const adjustment = bid.type === 'single' ? -31.25 : -62.50;
+                            const finalPayment = bid.type === 'single' ? 218.75 : bid.payment + adjustment;
                             
                             return (
                               <tr key={index} className={`border-b border-border ${bid.type === 'single' ? 'bg-muted/30' : ''}`}>
@@ -258,7 +259,7 @@ const Algorithm = () => {
                                   )}
                                 </td>
                                 <td className="text-center p-3 text-green-600 font-medium">
-                                  -$46.43
+                                  {bid.type === 'single' ? '-$31.25' : '-$62.50'}
                                 </td>
                                 <td className="text-center p-3 font-semibold text-primary">
                                   ${finalPayment.toFixed(2)}
@@ -278,8 +279,8 @@ const Algorithm = () => {
                       <li>• Each winner pays the second-highest bid for their position - this encourages honest bidding</li>
                       <li>• Pick order: Alex & Jamie → Morgan & Casey → Taylor & Jordan → Sam & Riley → Robin & Sage</li>
                       <li>• Room selection happens sequentially based on pick order</li>
-                      <li>• <strong>Total second-price payments: $3,315</strong> + Singles: $500 = $3,815</li>
-                      <li>• Surplus of $540 redistributed equally among all 7 participants (-$46.43 each)</li>
+                      <li>• <strong>Total second-price payments: $3,150</strong> + Singles: $500 = $3,650</li>
+                      <li>• Surplus of $375 redistributed: couples get $62.50 back (for 2 people), singles get $31.25 back (for 1 person)</li>
                       <li>• <strong>Final total collected: Exactly $3,275</strong></li>
                     </ul>
                   </div>
