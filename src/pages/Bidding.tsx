@@ -32,11 +32,11 @@ const Bidding = () => {
   const honeypotRef = useRef("");
 
   const pickOrders = [
-    { id: "firstPick", label: "1st Pick (Primary Bedroom)" },
-    { id: "secondPick", label: "2nd Pick (Best remaining)" },
+    { id: "firstPick", label: "1st Pick" },
+    { id: "secondPick", label: "2nd Pick" },
     { id: "thirdPick", label: "3rd Pick" },
     { id: "fourthPick", label: "4th Pick" },
-    { id: "fifthPick", label: "5th Pick (Last choice)" }
+    { id: "fifthPick", label: "5th Pick (No Choice)" }
   ];
 
   // Calculate total whenever pick order bids change
@@ -369,9 +369,6 @@ const Bidding = () => {
                 {/* Pick Order Bids */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-foreground">Pick Order Bids</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Bid on your preferred pick order. 1st pick chooses Primary bedroom, then bedrooms 1-4 in order.
-                  </p>
                   
                   {pickOrders.map((pick) => (
                     <div key={pick.id}>
