@@ -86,15 +86,15 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-16">
+      <section className="relative">
         <div className="mb-8">
           <img 
             src={heroImage} 
             alt="Erik's Ranch - Montana guest lodge near Yellowstone" 
-            className="w-full object-contain"
+            className="w-full object-contain max-h-[75vh]"
           />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 py-8">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-5xl font-bold mb-6 text-foreground">
               Montana Here We Come
