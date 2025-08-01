@@ -19,7 +19,7 @@ import heroImage from "@/assets/hero-image.jpg";
 const Index = () => {
   const rooms = [
     {
-      letter: "Primary",
+      letter: "1",
       name: "Primary Bedroom",
       image: roomAImage,
       features: ["King Bed", "En-suite Bathroom", "Outdoor Deck"],
@@ -27,28 +27,28 @@ const Index = () => {
       highlight: "Much Luxury"
     },
     {
-      letter: "1", 
+      letter: "2", 
       name: "Bedroom 2",
       image: [roomBImage, roomB2Image],
       features: ["Queen Bed", "Window", "Spacious"],
       description: "*Slaps bedroom* Look at the space on that thing."
     },
     {
-      letter: "2",
+      letter: "3",
       name: "Bedroom 3", 
       image: roomCImage,
       features: ["Fake Plant", "Double Bed", "Rocking Chair", "Sink"],
       description: "Bit of a tight squeeze, but at least you get to wash your face at night."
     },
     {
-      letter: "3",
+      letter: "4",
       name: "Bedroom 4",
       image: roomDImage, 
       features: ["Queen Bed", "Small"],
       description: "Pretty bed at least."
     },
     {
-      letter: "4",
+      letter: "5",
       name: "Bedroom 5",
       image: roomEImage,
       features: ["Rocking Chair", "En-Suite Bathroom", "King Bed"],
@@ -56,7 +56,7 @@ const Index = () => {
     },
     {
       letter: "6",
-      name: "Bedroom 5 (Singles)",
+      name: "Bedroom 6 (Singles)",
       image: [roomA2Image,roomA3Image],
       features: ["Twin Beds", "Shared Space", "Garden View", "Natural Light"],
       description: "All the single ladies (now put your hands up)."
