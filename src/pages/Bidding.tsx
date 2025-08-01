@@ -97,11 +97,48 @@ const Bidding = () => {
       sanitizedValue = formatCurrency(value);
     }
     
-    setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
+    const updatedFormData = { ...formData, [field]: sanitizedValue };
+    setFormData(updatedFormData);
     
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
+    }
+    
+    // Real-time validation for pick order bids
+    if (field.includes('Pick')) {
+      const newErrors = { ...errors };
+      const pickValues = pickOrders.map(pick => {
+        if (pick.id === field) {
+          return parseFloat(sanitizedValue) || 0;
+        }
+        return parseFloat(updatedFormData[pick.id as keyof typeof updatedFormData] as string) || 0;
+      });
+      
+      const pickIndex = pickOrders.findIndex(pick => pick.id === field);
+      const currentValue = pickValues[pickIndex];
+      
+      // Check if current bid is higher than previous pick
+      if (pickIndex > 0 && currentValue > pickValues[pickIndex - 1]) {
+        const previousPickLabel = pickOrders[pickIndex - 1].label.split(' ')[0];
+        newErrors[field] = `Cannot be higher than ${previousPickLabel} bid ($${pickValues[pickIndex - 1]})`;
+      } else {
+        // Clear the error for this field if it's valid
+        delete newErrors[field];
+      }
+      
+      // Also check subsequent picks to clear their errors if they become valid
+      for (let i = pickIndex + 1; i < pickOrders.length; i++) {
+        const nextPickId = pickOrders[i].id;
+        const nextValue = pickValues[i];
+        
+        if (nextValue <= currentValue) {
+          // Clear error for next pick if it's now valid
+          delete newErrors[nextPickId];
+        }
+      }
+      
+      setErrors(newErrors);
     }
   };
 
